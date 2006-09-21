@@ -15,13 +15,16 @@
 	Build file for the GLite slcs common component
 	
 	Authors: Joachim Flammer <Joachim.Flammer@Cern.ch>	
-	Version info: $Id: build.xml,v 1.1 2006/09/14 12:23:09 vtschopp Exp $
+	Version info: $Id: build.xml,v 1.2 2006/09/21 12:32:52 vtschopp Exp $
 	Release: $Name:  $
 
 	Revision history:
 	$Log: build.xml,v $
-	Revision 1.1  2006/09/14 12:23:09  vtschopp
-	Initial revision
+	Revision 1.2  2006/09/21 12:32:52  vtschopp
+	add local external lib as long as ext.* are not in repository.
+
+	Revision 1.1.1.1  2006/09/14 12:23:09  vtschopp
+	SWITCHslcs common library
 
 	Revision 1.7  2006/04/26 11:39:55  flammer
 	Corrected wrong template syntax.
@@ -123,7 +126,7 @@
             <path refid="ext.log4j.classpath"/>
             <!-- commons-logging classpath -->
             <path refid="ext.commons-logging.classpath"/>
-            <!-- bcprov-jdk14 classpath -->
+            <!-- bcprov-jdk14 + bcmail-jdk14 classpath -->
             <path refid="ext.bcprov-jdk14.classpath"/>
             <!-- commons-configuration classpath 
             <path refid="ext.commons-configuration.classpath"/> -->
@@ -135,6 +138,11 @@
             <path refid="ext.commons-httpclient.classpath"/> -->
             <!-- commons-codec classpath 
             <path refid="ext.commons-codec.classpath"/> -->
+
+            <!-- XXX: slcs external libs until added as ext.* -->
+            <fileset dir="external-lib">
+                <include name="**/*.jar"/>
+            </fileset>
         </path>
         <!-- Set test classpaths -->
         <path id="test.classpath">
