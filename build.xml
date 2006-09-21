@@ -15,11 +15,14 @@
 	Build file for the GLite slcs common component
 	
 	Authors: Joachim Flammer <Joachim.Flammer@Cern.ch>	
-	Version info: $Id: build.xml,v 1.2 2006/09/21 12:32:52 vtschopp Exp $
+	Version info: $Id: build.xml,v 1.3 2006/09/21 13:53:12 vtschopp Exp $
 	Release: $Name:  $
 
 	Revision history:
 	$Log: build.xml,v $
+	Revision 1.3  2006/09/21 13:53:12  vtschopp
+	XXX: hack for external lib not yet in JRA1MW repository
+
 	Revision 1.2  2006/09/21 12:32:52  vtschopp
 	add local external lib as long as ext.* are not in repository.
 
@@ -115,6 +118,9 @@
 	
 	<target name="localinit"
 		description="Module specific initialization tasks">
+        <!-- XXX: slcs external libs until added as ext.* -->
+        <mkdir dir="${workspace.dir}/external-lib" />
+
         <!-- Set compile classpaths -->
         <path id="compile.classpath">
             <!-- stage classpath -->
@@ -140,7 +146,7 @@
             <path refid="ext.commons-codec.classpath"/> -->
 
             <!-- XXX: slcs external libs until added as ext.* -->
-            <fileset dir="external-lib">
+            <fileset dir="${workspace.dir}/external-lib">
                 <include name="**/*.jar"/>
             </fileset>
         </path>
