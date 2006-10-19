@@ -1,6 +1,7 @@
 package org.glite.slcs.httpclient.ssl;
 
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -135,9 +136,13 @@ public class ExtendedProtocolSocketFactory implements ProtocolSocketFactory {
             throw new IllegalArgumentException("Trust keystore path may not be null");
         }
         LOG.debug("Initializing trust store: " + path);
+        // first search file in classpath, then as absolute filename
+        InputStream is= getClass().getResourceAsStream(path);
+        if (is == null) {
+            is= new FileInputStream(path);
+        }
         KeyStore keystore= KeyStore.getInstance(KeyStore.getDefaultType());
-        FileInputStream fis= new FileInputStream(path);
-        keystore.load(fis, null);
+        keystore.load(is, null);
         return keystore;
     }
 
@@ -151,9 +156,13 @@ public class ExtendedProtocolSocketFactory implements ProtocolSocketFactory {
             throw new IllegalArgumentException("Key keystore password may not be null");
         }
         LOG.debug("Initializing key store: " + path);
+        // first search file in classpath, then as absolute filename
+        InputStream is= getClass().getResourceAsStream(path);
+        if (is == null) {
+            is= new FileInputStream(path);
+        }
         KeyStore keystore= KeyStore.getInstance(KeyStore.getDefaultType());
-        FileInputStream fis= new FileInputStream(path);
-        keystore.load(fis, password.toCharArray());
+        keystore.load(is, password.toCharArray());
         return keystore;
     }
 
