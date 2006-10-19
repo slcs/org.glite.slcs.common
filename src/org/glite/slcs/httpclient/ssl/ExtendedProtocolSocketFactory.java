@@ -135,10 +135,11 @@ public class ExtendedProtocolSocketFactory implements ProtocolSocketFactory {
         if (path == null) {
             throw new IllegalArgumentException("Trust keystore path may not be null");
         }
-        LOG.debug("Initializing trust store: " + path);
         // first search file in classpath, then as absolute filename
-        InputStream is= getClass().getResourceAsStream(path);
+        LOG.debug("Load truststore from classpath: /" + path);
+        InputStream is= getClass().getResourceAsStream("/" + path);
         if (is == null) {
+            LOG.debug("Not in classpath, load truststore from file: " + path);
             is= new FileInputStream(path);
         }
         KeyStore keystore= KeyStore.getInstance(KeyStore.getDefaultType());
@@ -155,10 +156,11 @@ public class ExtendedProtocolSocketFactory implements ProtocolSocketFactory {
         if (password == null) {
             throw new IllegalArgumentException("Key keystore password may not be null");
         }
-        LOG.debug("Initializing key store: " + path);
         // first search file in classpath, then as absolute filename
-        InputStream is= getClass().getResourceAsStream(path);
+        LOG.debug("Load keystore from classpath: /" + path);
+        InputStream is= getClass().getResourceAsStream("/" + path);
         if (is == null) {
+            LOG.debug("Not in classpath, load keystore from file: " + path);
             is= new FileInputStream(path);
         }
         KeyStore keystore= KeyStore.getInstance(KeyStore.getDefaultType());
