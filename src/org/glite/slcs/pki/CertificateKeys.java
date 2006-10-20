@@ -21,7 +21,7 @@ import org.apache.commons.logging.LogFactory;
  * store the PrivateKey encrypted in PEM format.
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class CertificateKeys {
 
@@ -41,7 +41,7 @@ public class CertificateKeys {
     private KeyPair keyPair_= null;
 
     /** The private key password */
-    private String password_= null;
+    private char[] password_= null;
 
     /**
      * 
@@ -49,7 +49,7 @@ public class CertificateKeys {
      * @param password
      * @throws GeneralSecurityException
      */
-    public CertificateKeys(int keySize, String password)
+    public CertificateKeys(int keySize, char[] password)
             throws GeneralSecurityException {
         try {
             KeyPairGenerator generator= KeyPairGenerator.getInstance(KEY_ALGORITHM);
@@ -71,7 +71,7 @@ public class CertificateKeys {
      *            The encryption password.
      * @throws GeneralSecurityException
      */
-    public CertificateKeys(String password) throws GeneralSecurityException {
+    public CertificateKeys(char[] password) throws GeneralSecurityException {
         this(KEY_SIZE, password);
     }
 
@@ -126,6 +126,16 @@ public class CertificateKeys {
      *            private password.
      */
     public void setPassword(String password) {
+        this.password_= password.toCharArray();
+    }
+
+    /**
+     * Sets the private key encryption password.
+     * 
+     * @param The
+     *            private password.
+     */
+    public void setPassword(char[] password) {
         this.password_= password;
     }
 

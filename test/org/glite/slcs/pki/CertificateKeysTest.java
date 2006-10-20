@@ -1,5 +1,5 @@
 /*
- * $Id: CertificateKeysTest.java,v 1.1 2006/09/21 12:42:58 vtschopp Exp $
+ * $Id: CertificateKeysTest.java,v 1.2 2006/10/20 14:20:21 vtschopp Exp $
  * 
  * Created on Jun 14, 2006 by tschopp
  *
@@ -23,7 +23,8 @@ public class CertificateKeysTest extends TestCase {
         for (int i= 0; i < keySizes.length; i++) {
             int size= keySizes[i];
             try {
-                new CertificateKeys(size, password);
+                char[] pass= password.toCharArray();
+                new CertificateKeys(size, pass);
             } catch (GeneralSecurityException e) {
                 e.printStackTrace();
                 fail(e.getMessage());
@@ -38,7 +39,8 @@ public class CertificateKeysTest extends TestCase {
         for (int i= 0; i < keySizes.length; i++) {
             int size= keySizes[i];
             try {
-                CertificateKeys keys= new CertificateKeys(size, password);
+                char[] pass= password.toCharArray();
+                CertificateKeys keys= new CertificateKeys(size, pass);
                 keys.getPEMPrivate();
                 String filename= "junit_" + size + ".key";
                 File file= new File(filename);

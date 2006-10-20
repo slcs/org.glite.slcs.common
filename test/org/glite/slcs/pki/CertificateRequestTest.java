@@ -1,5 +1,5 @@
 /*
- * $Id: CertificateRequestTest.java,v 1.1 2006/09/21 12:42:58 vtschopp Exp $
+ * $Id: CertificateRequestTest.java,v 1.2 2006/10/20 14:20:21 vtschopp Exp $
  * 
  * Created on Jun 14, 2006 by tschopp
  *
@@ -50,7 +50,8 @@ public class CertificateRequestTest extends TestCase {
         for (int i= 0; i < this.keySizes.length; i++) {
             int size= this.keySizes[i];
             try {
-                CertificateKeys keys= new CertificateKeys(size, this.password);
+                char[] pass= password.toCharArray();
+                CertificateKeys keys= new CertificateKeys(size, pass);
                 CertificateRequest csr= new CertificateRequest(keys,
                                                                this.subject,
                                                                this.extensions);
@@ -71,7 +72,8 @@ public class CertificateRequestTest extends TestCase {
         for (int i= 0; i < this.keySizes.length; i++) {
             int size= this.keySizes[i];
             try {
-                CertificateKeys keys= new CertificateKeys(size, this.password);
+                char[] pass= this.password.toCharArray();
+                CertificateKeys keys= new CertificateKeys(size, pass);
                 CertificateRequest csr0= new CertificateRequest(keys,
                                                                 this.subject,
                                                                 this.extensions);

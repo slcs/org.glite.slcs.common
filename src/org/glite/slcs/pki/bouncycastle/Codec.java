@@ -21,7 +21,7 @@ import org.bouncycastle.openssl.PEMWriter;
  * Codec utility to read and write PEM object using the BouncyCastle functions.
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class Codec {
 
@@ -71,14 +71,13 @@ public class Codec {
      *            The Key encryption password
      * @return The PEM encode String representation of the key
      */
-    static public String getPEMEncoded(Key key, String password) {
+    static public String getPEMEncoded(Key key, char[] password) {
         StringWriter sw= new StringWriter();
         PEMWriter pem= new PEMWriter(sw);
         try {
             String algorithm= "DESEDE";
-            char[] passwordChars= password.toCharArray();
             SecureRandom random= new SecureRandom();
-            pem.writeObject(key, algorithm, passwordChars, random);
+            pem.writeObject(key, algorithm, password, random);
         } catch (IOException e) {
             LOG.warn("Failed to write encoded PEM key", e);
             return null;
@@ -128,14 +127,13 @@ public class Codec {
      * @throws IOException
      *             If an error occurs.
      */
-    static public void storePEMEncoded(Key key, String password, File file)
+    static public void storePEMEncoded(Key key, char[] password, File file)
             throws IOException {
         FileWriter fw= new FileWriter(file);
         PEMWriter pem= new PEMWriter(fw);
         String algorithm= "DESEDE";
-        char[] passwordChars= password.toCharArray();
         SecureRandom random= new SecureRandom();
-        pem.writeObject(key, algorithm, passwordChars, random);
+        pem.writeObject(key, algorithm, password, random);
         try {
             pem.close();
             fw.close();
