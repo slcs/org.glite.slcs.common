@@ -1,3 +1,12 @@
+/*
+ * $Id: ExtendedProtocolSocketFactory.java,v 1.4 2006/10/24 08:50:30 vtschopp Exp $
+ * 
+ * Created on Aug 8, 2006 by tschopp
+ *
+ * Copyright (c) Members of the EGEE Collaboration. 2004.
+ * See http://eu-egee.org/partners/ for details on the copyright holders.
+ * For license conditions see the license file or http://eu-egee.org/license.html
+ */
 package org.glite.slcs.httpclient.ssl;
 
 import java.io.FileInputStream;
@@ -74,10 +83,11 @@ import org.apache.commons.logging.LogFactory;
  * GetMethod httpget= new GetMethod(&quot;https://localhost/&quot;);
  * client.executeMethod(httpget);
  * </pre>
- * 
  * </p>
+ *
+ * @author Valery Tschopp <tschopp@switch.ch>
+ * @version $Revision: 1.4 $
  */
-
 public class ExtendedProtocolSocketFactory implements ProtocolSocketFactory {
 
     private static String SSL_CONTEXT_PROTOCOL= "SSL";

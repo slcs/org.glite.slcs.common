@@ -1,9 +1,11 @@
 /*
- * $Id: SLCSConfiguration.java,v 1.1 2006/09/21 12:42:56 vtschopp Exp $
+ * $Id: SLCSConfiguration.java,v 1.2 2006/10/24 08:47:01 vtschopp Exp $
  * 
  * Created on Aug 9, 2006 by tschopp
  *
- * Copyright (c) 2006 SWITCH - http://www.switch.ch/
+ * Copyright (c) Members of the EGEE Collaboration. 2004.
+ * See http://eu-egee.org/partners/ for details on the copyright holders.
+ * For license conditions see the license file or http://eu-egee.org/license.html
  */
 package org.glite.slcs.config;
 
@@ -23,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
  * SLCSConfiguration is a wrapper class for a XML file based configuration.
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @see org.apache.commons.configuration.XMLConfiguration
  */
 public abstract class SLCSConfiguration {

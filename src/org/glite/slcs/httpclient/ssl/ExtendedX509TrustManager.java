@@ -1,3 +1,12 @@
+/*
+ * $Id: ExtendedX509TrustManager.java,v 1.2 2006/10/24 08:50:30 vtschopp Exp $
+ * 
+ * Created on Aug 8, 2006 by tschopp
+ *
+ * Copyright (c) Members of the EGEE Collaboration. 2004.
+ * See http://eu-egee.org/partners/ for details on the copyright holders.
+ * For license conditions see the license file or http://eu-egee.org/license.html
+ */
 package org.glite.slcs.httpclient.ssl;
 
 import java.security.KeyStore;
@@ -22,6 +31,9 @@ import org.apache.commons.logging.LogFactory;
 /**
  * ExtendedTrustX509TrustManager can be used to extend the default JSSE
  * {@link X509TrustManager} with additional trusted CAs stored in a trust store.
+ *
+ * @author Valery Tschoppp <tschopp@switch.ch>
+ * @version $Revision: 1.2 $
  */
 public class ExtendedX509TrustManager implements X509TrustManager {
 

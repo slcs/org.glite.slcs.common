@@ -1,9 +1,11 @@
 /*
- * $Id: CertificateRequest.java,v 1.1 2006/09/21 12:42:57 vtschopp Exp $
+ * $Id: CertificateRequest.java,v 1.2 2006/10/24 08:54:01 vtschopp Exp $
  * 
  * Created on May 3, 2006 by tschopp
  *
- * Copyright (c) 2004 SWITCH - http://www.switch.ch/
+ * Copyright (c) Members of the EGEE Collaboration. 2004.
+ * See http://eu-egee.org/partners/ for details on the copyright holders.
+ * For license conditions see the license file or http://eu-egee.org/license.html
  */
 package org.glite.slcs.pki;
 
@@ -33,7 +35,7 @@ import org.bouncycastle.asn1.x509.X509Extensions;
  * read and store as PEM format.
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class CertificateRequest {
 

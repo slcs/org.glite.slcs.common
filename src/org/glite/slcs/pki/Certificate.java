@@ -1,9 +1,11 @@
 /*
- * $Id: Certificate.java,v 1.1 2006/09/21 12:42:57 vtschopp Exp $
+ * $Id: Certificate.java,v 1.2 2006/10/24 08:54:01 vtschopp Exp $
  * 
  * Created on Jun 14, 2006 by tschopp
  *
- * Copyright (c) 2006 SWITCH - http://www.switch.ch/
+ * Copyright (c) Members of the EGEE Collaboration. 2004.
+ * See http://eu-egee.org/partners/ for details on the copyright holders.
+ * For license conditions see the license file or http://eu-egee.org/license.html
  */
 package org.glite.slcs.pki;
 
@@ -24,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
  * certificate with its chain and read/write it from/to file.
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class Certificate {
 

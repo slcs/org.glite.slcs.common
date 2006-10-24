@@ -1,9 +1,11 @@
 /*
- * $Id: FileConfigurationEvent.java,v 1.1 2006/09/21 12:42:55 vtschopp Exp $
+ * $Id: FileConfigurationEvent.java,v 1.2 2006/10/24 08:47:01 vtschopp Exp $
  * 
  * Created on Aug 25, 2006 by Valery Tschopp <tschopp@switch.ch>
  *
- * Copyright (c) 2006 SWITCH - http://www.switch.ch/
+ * Copyright (c) Members of the EGEE Collaboration. 2004.
+ * See http://eu-egee.org/partners/ for details on the copyright holders.
+ * For license conditions see the license file or http://eu-egee.org/license.html
  */
 package org.glite.slcs.config;
 
@@ -14,7 +16,7 @@ import java.util.EventObject;
  * the FileConfigurationListener.
  *
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class FileConfigurationEvent extends EventObject {
 

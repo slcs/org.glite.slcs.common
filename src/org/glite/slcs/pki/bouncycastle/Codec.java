@@ -1,3 +1,10 @@
+/*
+ * $Id: Codec.java,v 1.3 2006/10/24 08:55:04 vtschopp Exp $
+ *
+ * Copyright (c) Members of the EGEE Collaboration. 2004.
+ * See http://eu-egee.org/partners/ for details on the copyright holders.
+ * For license conditions see the license file or http://eu-egee.org/license.html
+ */
 package org.glite.slcs.pki.bouncycastle;
 
 import java.io.File;
@@ -21,7 +28,7 @@ import org.bouncycastle.openssl.PEMWriter;
  * Codec utility to read and write PEM object using the BouncyCastle functions.
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class Codec {
 
