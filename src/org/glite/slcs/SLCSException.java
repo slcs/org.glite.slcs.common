@@ -1,9 +1,11 @@
 /*
- * $Id: SLCSException.java,v 1.2 2006/10/24 08:37:24 vtschopp Exp $
+ * $Id: SLCSException.java,v 1.3 2006/10/24 08:40:54 vtschopp Exp $
  * 
  * Created on Jul 6, 2006 by tschopp
  *
- * Copyright (c) 2004. Members of the EGEE Collaboration. http://www.eu-egee.org
+ * Copyright (c) Members of the EGEE Collaboration. 2004.
+ * See http://eu-egee.org/partners/ for details on the copyright holders.
+ * For license conditions see the license file or http://eu-egee.org/license.html
  */
 package org.glite.slcs;
 
@@ -11,7 +13,7 @@ package org.glite.slcs;
  * SLCSException is the generic Exception for the SLCS system.
  *
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class SLCSException extends Exception {
 
