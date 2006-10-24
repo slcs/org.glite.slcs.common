@@ -1,9 +1,9 @@
 /*
- * $Id: ServiceException.java,v 1.1 2006/09/21 12:42:53 vtschopp Exp $
+ * $Id: ServiceException.java,v 1.2 2006/10/24 08:37:24 vtschopp Exp $
  * 
  * Created on Jul 18, 2006 by tschopp
  *
- * Copyright (c) 2006 SWITCH - http://www.switch.ch/
+ * Copyright (c) 2004. Members of the EGEE Collaboration. http://www.eu-egee.org
  */
 package org.glite.slcs;
 
@@ -13,7 +13,7 @@ package org.glite.slcs;
  * information.
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ServiceException extends SLCSException {
 

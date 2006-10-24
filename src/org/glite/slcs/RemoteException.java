@@ -1,9 +1,9 @@
 /*
- * $Id: RemoteException.java,v 1.1 2006/09/21 12:42:52 vtschopp Exp $
+ * $Id: RemoteException.java,v 1.2 2006/10/24 08:37:24 vtschopp Exp $
  * 
  * Created on Jul 17, 2006 by tschopp
  *
- * Copyright (c) 2006 SWITCH - http://www.switch.ch/
+ * Copyright (c) 2004. Members of the EGEE Collaboration. http://www.eu-egee.org
  */
 package org.glite.slcs;
 
@@ -12,7 +12,7 @@ package org.glite.slcs;
  * service. You might want to try again.
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class RemoteException extends SLCSException {
 
