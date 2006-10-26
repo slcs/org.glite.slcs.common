@@ -1,0 +1,78 @@
+
+<!-- STANDALONE build for org.glite.slcs.common -->
+<!-- Valery Tschopp <tschopp@switch.ch> -->
+<!-- $Id: build.standalone.xml,v 1.1 2006/10/26 11:37:30 vtschopp Exp $ -->
+
+<project name="org.glite.slcs.common" default="package" basedir=".">
+
+	<property file="build.standalone.properties" />
+
+	<!-- set global properties for this local build -->
+	<property name="src.dir" location="${basedir}/src" />
+	<property name="slcs.lib.dir" location="${basedir}/../repository-slcs" />
+	<property name="external.lib.dir" location="${basedir}/../repository" />
+	<property name="build.dir" location="${basedir}/build" />
+	<property name="dist.dir" location="${basedir}/dist" />
+
+	<target name="init">
+		<tstamp />
+
+        <!-- jar list (not yet in JRA1MW) -->
+        <fileset id="slcs.lib.jar.set" dir="${slcs.lib.dir}">
+            <include name="commons-codec-1.3.jar"/>
+            <include name="commons-collections-3.2.jar"/>
+            <include name="commons-configuration-1.2.jar"/>
+            <include name="commons-httpclient-3.0.1.jar"/>
+            <include name="commons-lang-2.1.jar"/>
+        </fileset>
+        <!-- jar list (from JRA1MW repository) -->
+        <fileset id="external.lib.jar.set" dir="${external.lib.dir}">
+            <include name="bcprov-jdk14/1.30/share/jars/bcprov-jdk14-130.jar"/>
+            <include name="commons-logging/1.0.4/share/commons-logging.jar"/>
+            <include name="log4j/1.2.8/share/log4j-1.2.8.jar"/>
+        </fileset>
+
+        <!-- classpath to compile -->
+        <path id="compile.classpath">
+            <!-- not yet in JRA1MW repository -->
+            <fileset refid="slcs.lib.jar.set" />
+            <!-- already in JRA1MW repository -->
+            <fileset refid="external.lib.jar.set" />
+        </path>
+
+	</target>
+
+	<target name="prepare" depends="init">
+		<mkdir dir="${build.dir}" />
+	</target>
+
+	<target name="compile" depends="prepare">
+		<!-- Compile the java code from ${src} into ${build} -->
+		<javac srcdir="${src.dir}" destdir="${build.dir}" source="1.4" target="1.4">
+			<classpath refid="compile.classpath" />
+		</javac>
+	</target>
+
+	<target name="package" depends="compile">
+		<!-- distribution directory -->
+		<property name="dist.share.jar.dir" location="${dist.dir}/share/java" />
+		<property name="dist.externals.jar.dir" location="${dist.dir}/externals/share/java" />
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${dist.share.jar.dir}" />
+		<mkdir dir="${dist.externals.jar.dir}" />
+		<!-- jar all classes in share/java -->
+        <property name="slcs.common.jar.file" location="${dist.share.jar.dir}/${slcs.common.jarfile}" />
+		<jar jarfile="${slcs.common.jar.file}" basedir="${build.dir}" />
+		<!-- copy all third party libs in externals/share/java -->
+		<copy todir="${dist.externals.jar.dir}" flatten="true">
+			<fileset refid="slcs.lib.jar.set"/> 
+			<fileset refid="external.lib.jar.set"/> 
+		</copy>
+	</target>
+
+	<target name="clean">
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+</project>
