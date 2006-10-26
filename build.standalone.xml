@@ -1,7 +1,7 @@
 
 <!-- STANDALONE build for org.glite.slcs.common -->
 <!-- Valery Tschopp <tschopp@switch.ch> -->
-<!-- $Id: build.standalone.xml,v 1.1 2006/10/26 11:37:30 vtschopp Exp $ -->
+<!-- $Id: build.standalone.xml,v 1.2 2006/10/26 14:21:16 vtschopp Exp $ -->
 
 <project name="org.glite.slcs.common" default="package" basedir=".">
 
@@ -48,7 +48,9 @@
 
 	<target name="compile" depends="prepare">
 		<!-- Compile the java code from ${src} into ${build} -->
-		<javac srcdir="${src.dir}" destdir="${build.dir}" source="1.4" target="1.4">
+        <javac srcdir="${src.dir}"
+               debug="true" 
+               destdir="${build.dir}">
 			<classpath refid="compile.classpath" />
 		</javac>
 	</target>
