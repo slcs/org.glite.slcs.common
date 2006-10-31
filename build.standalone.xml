@@ -1,7 +1,7 @@
 
 <!-- STANDALONE build for org.glite.slcs.common -->
 <!-- Valery Tschopp <tschopp@switch.ch> -->
-<!-- $Id: build.standalone.xml,v 1.2 2006/10/26 14:21:16 vtschopp Exp $ -->
+<!-- $Id: build.standalone.xml,v 1.3 2006/10/31 14:00:50 vtschopp Exp $ -->
 
 <project name="org.glite.slcs.common" default="package" basedir=".">
 
@@ -9,34 +9,27 @@
 
 	<!-- set global properties for this local build -->
 	<property name="src.dir" location="${basedir}/src" />
-	<property name="slcs.lib.dir" location="${basedir}/../repository-slcs" />
-	<property name="external.lib.dir" location="${basedir}/../repository" />
+	<property name="external.lib.dir" location="${basedir}/../repository/externals" />
 	<property name="build.dir" location="${basedir}/build" />
 	<property name="dist.dir" location="${basedir}/dist" />
 
 	<target name="init">
 		<tstamp />
 
-        <!-- jar list (not yet in JRA1MW) -->
-        <fileset id="slcs.lib.jar.set" dir="${slcs.lib.dir}">
-            <include name="commons-codec-1.3.jar"/>
-            <include name="commons-collections-3.2.jar"/>
-            <include name="commons-configuration-1.2.jar"/>
-            <include name="commons-httpclient-3.0.1.jar"/>
-            <include name="commons-lang-2.1.jar"/>
-        </fileset>
         <!-- jar list (from JRA1MW repository) -->
         <fileset id="external.lib.jar.set" dir="${external.lib.dir}">
-            <include name="bcprov-jdk14/1.30/share/jars/bcprov-jdk14-130.jar"/>
-            <include name="commons-logging/1.0.4/share/commons-logging.jar"/>
-            <include name="log4j/1.2.8/share/log4j-1.2.8.jar"/>
+            <include name="bouncycastle/1.34/noarch/jars/bcprov-jdk15-134.jar"/>
+            <include name="commons-codec/1.3/noarch/commons-codec-1.3.jar"/>
+            <include name="commons-collections/3.2/noarch/commons-collections-3.2.jar"/>
+            <include name="commons-configuration/1.2/noarch/commons-configuration-1.2.jar"/>
+            <include name="commons-httpclient/3.0.1/noarch/commons-httpclient-3.0.1.jar"/>
+            <include name="commons-lang/2.1/noarch/commons-lang-2.1.jar"/>
+            <include name="commons-logging/1.0.4/noarch/commons-logging.jar"/>
+            <include name="log4j/1.2.8/noarch/dist/lib/log4j-1.2.8.jar"/>
         </fileset>
 
         <!-- classpath to compile -->
         <path id="compile.classpath">
-            <!-- not yet in JRA1MW repository -->
-            <fileset refid="slcs.lib.jar.set" />
-            <!-- already in JRA1MW repository -->
             <fileset refid="external.lib.jar.set" />
         </path>
 
@@ -67,7 +60,6 @@
 		<jar jarfile="${slcs.common.jar.file}" basedir="${build.dir}" />
 		<!-- copy all third party libs in externals/share/java -->
 		<copy todir="${dist.externals.jar.dir}" flatten="true">
-			<fileset refid="slcs.lib.jar.set"/> 
 			<fileset refid="external.lib.jar.set"/> 
 		</copy>
 	</target>
