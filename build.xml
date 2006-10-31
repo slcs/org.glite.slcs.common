@@ -15,11 +15,15 @@
 	Build file for the GLite slcs common component
 	
 	Authors: Joachim Flammer <Joachim.Flammer@Cern.ch>	
-	Version info: $Id: build.xml,v 1.7 2006/10/31 09:11:32 vtschopp Exp $
+	Version info: $Id: build.xml,v 1.8 2006/10/31 13:40:59 vtschopp Exp $
 	Release: $Name:  $
 
 	Revision history:
 	$Log: build.xml,v $
+	Revision 1.8  2006/10/31 13:40:59  vtschopp
+	RPM spec summary and description updated.
+	external libraries hack removed.
+
 	Revision 1.7  2006/10/31 09:11:32  vtschopp
 	uses ext.bouncycastle.classpath
 
@@ -131,10 +135,6 @@
 	<target name="localinit"
 		description="Module specific initialization tasks">
 
-        <!-- XXX: slcs external libs until added as ext.* 
-        <mkdir dir="${workspace.dir}/repository-slcs" />
-        -->
-
         <!-- Set compile classpaths -->
         <path id="compile.classpath">
             <!-- stage classpath -->
@@ -159,11 +159,6 @@
             <!-- commons-codec classpath -->
             <path refid="ext.commons-codec.classpath"/> 
 
-            <!-- XXX: slcs external libs until added as ext.* 
-            <fileset dir="${workspace.dir}/repository-slcs">
-                <include name="**/*.jar"/>
-            </fileset> 
-            -->
         </path>
 
         <!-- copy test log4j.properties -->

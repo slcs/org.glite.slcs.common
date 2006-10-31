@@ -15,11 +15,15 @@
 	Common build properties file for the GLite slcs common component
 	
 	Authors: Joachim Flammer <Joachim.Flammer@cern.ch>
-	Version info: $Id: properties.xml,v 1.2 2006/09/21 12:33:32 vtschopp Exp $
+	Version info: $Id: properties.xml,v 1.3 2006/10/31 13:40:59 vtschopp Exp $
 	Release: $Name:  $	
 	
 	Revision history:
 	$Log: properties.xml,v $
+	Revision 1.3  2006/10/31 13:40:59  vtschopp
+	RPM spec summary and description updated.
+	external libraries hack removed.
+
 	Revision 1.2  2006/09/21 12:33:32  vtschopp
 	RPM spec description added.
 
@@ -75,7 +79,7 @@
 	      Define extra properties here ...
 	     ====================================================== -->
     <!-- RPM spec -->
-    <property name="build.package.summary" value="Common SLCS library" />	
-    <property name="build.package.description" value="Common SLCS library used by org.glite.slcs.ui and org.glite.slcs.server" />	
+    <property name="build.package.summary" value="SLCS common library" />	
+    <property name="build.package.description" value="SLCS common library used by org.glite.slcs.ui and org.glite.slcs.server" />	
 		
 </project>
