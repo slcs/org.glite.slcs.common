@@ -1,5 +1,5 @@
 /*
- * $Id: FileConfigurationMonitor.java,v 1.3 2007/02/19 11:16:32 vtschopp Exp $
+ * $Id: FileConfigurationMonitor.java,v 1.4 2007/02/19 13:19:37 vtschopp Exp $
  * 
  * Created on Aug 25, 2006 by Valery Tschopp <tschopp@switch.ch>
  *
@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
  * FileConfigurationListener.
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class FileConfigurationMonitor extends Thread {
 
@@ -108,7 +108,8 @@ public class FileConfigurationMonitor extends Thread {
      */
     public FileConfigurationMonitor(FileConfiguration fileConfiguration,
             long monitoringInterval) {
-        super("FileConfigurationMonitor");
+        super("FileConfigurationMonitor(" + fileConfiguration.getFileName()
+                + ")");
         setDaemon(true);
         // set reloading strategy
         fileConfiguration.setReloadingStrategy(new FileChangedReloadingStrategy());
@@ -124,7 +125,7 @@ public class FileConfigurationMonitor extends Thread {
      */
     public void run() {
         running_ = true;
-        LOG.info("FileConfigurationMonitor file: " + file_.getAbsolutePath()
+        LOG.info("Monitor for file: " + file_.getAbsolutePath()
                 + " started");
         // start the monitoring thread for the file
         while (running_) {
@@ -145,7 +146,7 @@ public class FileConfigurationMonitor extends Thread {
                 running_ = false;
             }
         }
-        LOG.info("FileConfigurationMonitor file: " + file_.getAbsolutePath()
+        LOG.info("Monitor for file: " + file_.getAbsolutePath()
                 + " terminated.");
     }
 
