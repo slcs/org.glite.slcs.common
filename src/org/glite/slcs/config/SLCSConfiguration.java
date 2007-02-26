@@ -1,5 +1,5 @@
 /*
- * $Id: SLCSConfiguration.java,v 1.2 2006/10/24 08:47:01 vtschopp Exp $
+ * $Id: SLCSConfiguration.java,v 1.3 2007/02/26 09:17:48 vtschopp Exp $
  * 
  * Created on Aug 9, 2006 by tschopp
  *
@@ -25,16 +25,16 @@ import org.apache.commons.logging.LogFactory;
  * SLCSConfiguration is a wrapper class for a XML file based configuration.
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @see org.apache.commons.configuration.XMLConfiguration
  */
 public abstract class SLCSConfiguration {
 
     /** Logging */
-    private static Log LOG= LogFactory.getLog(SLCSConfiguration.class);
+    private static Log LOG = LogFactory.getLog(SLCSConfiguration.class);
 
     /** The file based configuration */
-    private FileConfiguration configuration_= null;
+    private FileConfiguration configuration_ = null;
 
     /**
      * Default constructor
@@ -43,13 +43,12 @@ public abstract class SLCSConfiguration {
     }
 
     /**
-     * 
      * @param filename
      * @throws SLCSConfigurationException
      */
     protected SLCSConfiguration(String filename)
             throws SLCSConfigurationException {
-        this.configuration_= loadConfiguration(filename);
+        this.configuration_ = loadConfiguration(filename);
         checkConfiguration();
     }
 
@@ -64,20 +63,19 @@ public abstract class SLCSConfiguration {
      */
     protected FileConfiguration loadConfiguration(String filename)
             throws SLCSConfigurationException {
-        FileConfiguration config= null;
+        FileConfiguration config = null;
         try {
             LOG.info("XMLConfiguration file=" + filename);
-            config= new XMLConfiguration(filename);
+            config = new XMLConfiguration(filename);
             if (LOG.isDebugEnabled()) {
-                File configFile= config.getFile();
+                File configFile = config.getFile();
                 LOG.debug("XMLConfiguration file="
                         + configFile.getAbsolutePath());
             }
         } catch (ConfigurationException e) {
             LOG.error("Failed to create XMLConfiguration: " + filename, e);
             throw new SLCSConfigurationException("Failed to create XMLConfiguration: "
-                                                         + filename,
-                                                 e);
+                    + filename, e);
         }
 
         return config;
@@ -93,6 +91,8 @@ public abstract class SLCSConfiguration {
             throws SLCSConfigurationException;
 
     /**
+     * Returns the value of the key and throw exception if the key is not
+     * defined.
      * 
      * @param name
      *            The key of the value to get
@@ -105,24 +105,30 @@ public abstract class SLCSConfiguration {
     }
 
     /**
+     * Returns the value of the key and throw exception if the key is not
+     * defined only if throwException is <code>true</code>.
      * 
      * @param name
-     * @param safe
-     * @return
+     *            The key name of the value to read.
+     * @param throwException
+     *            Throw an exception if the key is not found or not.
+     * @return The value or <code>null</code> if the key is not found or the value empty.
      * @throws SLCSConfigurationException
      */
-    public String getString(String name, boolean safe)
+    public String getString(String name, boolean throwException)
             throws SLCSConfigurationException {
-        String value= configuration_.getString(name);
-        if (safe && (value == null || value.equals(""))) {
-            throw new SLCSConfigurationException(name + " is null or empty: "
-                    + getFilename());
+        String value = configuration_.getString(name);
+        if (value == null || value.equals("")) {
+            value = null;
+            if (throwException) {
+                throw new SLCSConfigurationException(name
+                        + " is null or empty: " + getFilename());
+            }
         }
         return value;
     }
 
     /**
-     * 
      * @param name
      * @return
      */
@@ -131,13 +137,12 @@ public abstract class SLCSConfiguration {
     }
 
     /**
-     * 
      * @param name
      *            The configuration key.
      * @return The associated List. Empty if the name is not in configuration.
      */
     public List getList(String name) {
-        List list= configuration_.getList(name);
+        List list = configuration_.getList(name);
         return list;
     }
 
@@ -162,7 +167,7 @@ public abstract class SLCSConfiguration {
      */
     protected void setFileConfiguration(FileConfiguration configuration)
             throws SLCSConfigurationException {
-        this.configuration_= configuration;
+        this.configuration_ = configuration;
         checkConfiguration();
     }
 
@@ -173,7 +178,6 @@ public abstract class SLCSConfiguration {
         return this.configuration_;
     }
 
-    
     /**
      * @return The Configuration interface.
      */
