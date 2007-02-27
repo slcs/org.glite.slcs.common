@@ -1,5 +1,5 @@
 /*
- * $Id: ExtendedX509TrustManager.java,v 1.2 2006/10/24 08:50:30 vtschopp Exp $
+ * $Id: ExtendedX509TrustManager.java,v 1.3 2007/02/27 17:02:58 vtschopp Exp $
  * 
  * Created on Aug 8, 2006 by tschopp
  *
@@ -9,21 +9,24 @@
  */
 package org.glite.slcs.httpclient.ssl;
 
+import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.Principal;
+import java.security.PublicKey;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
 
 import javax.net.ssl.X509TrustManager;
-import javax.security.auth.x500.X500Principal;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,22 +34,22 @@ import org.apache.commons.logging.LogFactory;
 /**
  * ExtendedTrustX509TrustManager can be used to extend the default JSSE
  * {@link X509TrustManager} with additional trusted CAs stored in a trust store.
- *
+ * 
  * @author Valery Tschoppp <tschopp@switch.ch>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ExtendedX509TrustManager implements X509TrustManager {
 
     /** The default JSSE TrustManager used as delegate */
-    private X509TrustManager defaultTrustManager_= null;
+    private X509TrustManager defaultTrustManager_ = null;
 
     /**
      * List of trusted X509Certificate (trusted CA).
      */
-    private List trustedIssuers_= null;
+    private Map trustedIssuers_ = null;
 
     /** Log object for this class. */
-    private static final Log LOG= LogFactory.getLog(ExtendedX509TrustManager.class);
+    private static final Log LOG = LogFactory.getLog(ExtendedX509TrustManager.class);
 
     /**
      * Constructor for ExtendedX509TrustManager.
@@ -67,8 +70,8 @@ public class ExtendedX509TrustManager implements X509TrustManager {
             throw new IllegalArgumentException("Default X509TrustManager may not be null");
         }
 
-        defaultTrustManager_= defaultTrustManager;
-        trustedIssuers_= createTrustedIssuers(trustStore);
+        defaultTrustManager_ = defaultTrustManager;
+        trustedIssuers_ = createTrustedIssuers(trustStore);
 
         if (LOG.isDebugEnabled()) {
             // dumpTrustStore(trustStore);
@@ -76,40 +79,42 @@ public class ExtendedX509TrustManager implements X509TrustManager {
         }
     }
 
-    protected List createTrustedIssuers(KeyStore truststore)
+    protected Map createTrustedIssuers(KeyStore truststore)
             throws KeyStoreException {
-        List trustedcerts= new ArrayList();
-        Enumeration aliases= truststore.aliases();
+        Map trustedcerts = new HashMap();
+        Enumeration aliases = truststore.aliases();
         while (aliases.hasMoreElements()) {
-            String alias= (String) aliases.nextElement();
-            Certificate trustedcert= truststore.getCertificate(alias);
+            String alias = (String) aliases.nextElement();
+            Certificate trustedcert = truststore.getCertificate(alias);
             if (trustedcert != null && trustedcert instanceof X509Certificate) {
-                X509Certificate cert= (X509Certificate) trustedcert;
-                trustedcerts.add(cert);
+                X509Certificate cert = (X509Certificate) trustedcert;
+                Principal subject = cert.getSubjectDN();
+                trustedcerts.put(subject, cert);
             }
         }
         return trustedcerts;
     }
 
-    
-//    private void dumpTrustStore(KeyStore truststore) throws KeyStoreException {
-//        Enumeration aliases= truststore.aliases();
-//        while (aliases.hasMoreElements()) {
-//            String alias= (String) aliases.nextElement();
-//            LOG.debug("Trusted certificate [" + alias + "]:");
-//            Certificate trustedcert= truststore.getCertificate(alias);
-//            if (trustedcert != null && trustedcert instanceof X509Certificate) {
-//                X509Certificate cert= (X509Certificate) trustedcert;
-//                dumpCertificate(cert);
-//            }
-//        }
-//    }
+    // private void dumpTrustStore(KeyStore truststore) throws KeyStoreException
+    // {
+    // Enumeration aliases= truststore.aliases();
+    // while (aliases.hasMoreElements()) {
+    // String alias= (String) aliases.nextElement();
+    // LOG.debug("Trusted certificate [" + alias + "]:");
+    // Certificate trustedcert= truststore.getCertificate(alias);
+    // if (trustedcert != null && trustedcert instanceof X509Certificate) {
+    // X509Certificate cert= (X509Certificate) trustedcert;
+    // dumpCertificate(cert);
+    // }
+    // }
+    // }
 
-    private void dumpTrustedIssuers(List trustedIssuers) {
+    private void dumpTrustedIssuers(Map trustedIssuers) {
         LOG.debug("Trusted Issuers:");
-        Iterator certs= trustedIssuers.iterator();
+        Collection issuers = trustedIssuers.values();
+        Iterator certs = issuers.iterator();
         while (certs.hasNext()) {
-            X509Certificate cert= (X509Certificate) certs.next();
+            X509Certificate cert = (X509Certificate) certs.next();
             dumpCertificate(cert);
         }
     }
@@ -125,12 +130,12 @@ public class ExtendedX509TrustManager implements X509TrustManager {
 
     private String getCertificateFingerprint(X509Certificate certificate,
             String algorithm) {
-        byte[] digest= null;
+        byte[] digest = null;
         try {
-            byte[] certificateBytes= certificate.getEncoded();
-            MessageDigest md= MessageDigest.getInstance(algorithm);
+            byte[] certificateBytes = certificate.getEncoded();
+            MessageDigest md = MessageDigest.getInstance(algorithm);
             md.update(certificateBytes);
-            digest= md.digest();
+            digest = md.digest();
         } catch (CertificateEncodingException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
@@ -143,12 +148,12 @@ public class ExtendedX509TrustManager implements X509TrustManager {
         if (byteData == null) {
             return "";
         }
-        StringBuffer sb= new StringBuffer();
-        for (int i= 0; i < byteData.length; i++) {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < byteData.length; i++) {
             if (i != 0)
                 sb.append(":");
-            int b= byteData[i] & 0xff;
-            String hex= Integer.toHexString(b);
+            int b = byteData[i] & 0xff;
+            String hex = Integer.toHexString(b);
             if (hex.length() == 1)
                 sb.append("0");
             sb.append(hex);
@@ -167,8 +172,8 @@ public class ExtendedX509TrustManager implements X509TrustManager {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Certificate chain:");
             if (chain != null) {
-                for (int i= 0; i < chain.length; i++) {
-                    X509Certificate certificate= chain[i];
+                for (int i = 0; i < chain.length; i++) {
+                    X509Certificate certificate = chain[i];
                     LOG.debug(i + ": S: "
                             + certificate.getSubjectX500Principal());
                     LOG.debug(i + ": I: "
@@ -189,8 +194,8 @@ public class ExtendedX509TrustManager implements X509TrustManager {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Certificate chain:");
             if (chain != null) {
-                for (int i= 0; i < chain.length; i++) {
-                    X509Certificate certificate= chain[i];
+                for (int i = 0; i < chain.length; i++) {
+                    X509Certificate certificate = chain[i];
                     LOG.debug(i + ": S: "
                             + certificate.getSubjectX500Principal());
                     LOG.debug(i + ": I: "
@@ -206,9 +211,9 @@ public class ExtendedX509TrustManager implements X509TrustManager {
             // Start with the root and see if the subject or the issuer is
             // in the trustedIssuers HashTable.
             // The root is at the end of the chain.
-            boolean trusted= false;
-            for (int i= chain.length - 1; i >= 0; i--) {
-                X509Certificate cert= chain[i];
+            boolean trusted = false;
+            for (int i = chain.length - 1; i >= 0; i--) {
+                X509Certificate cert = chain[i];
 
                 // XXX
                 if (LOG.isDebugEnabled()) {
@@ -217,22 +222,21 @@ public class ExtendedX509TrustManager implements X509TrustManager {
                 }
 
                 if (isCertificateTrusted(cert)) {
-                    LOG.debug("Trusted X509Certificate: "
+                    LOG.debug("Trusted X509 Certificate: "
                             + cert.getSubjectX500Principal());
-                    trusted= true;
+                    trusted = true;
                     break;
                 }
-//                else if (isCertificateIssuerTrusted(cert)) {
-//                    LOG.debug("Trusted X500Principal Issuer: "
-//                            + cert.getIssuerX500Principal());
-//                    trusted= true;
-//                    break;
-//                }
+                else if (isCertificateIssuerTrusted(cert)) {
+                    LOG.debug("Trusted X509 Issuer: "
+                            + cert.getIssuerX500Principal());
+                    trusted = true;
+                    break;
+                }
             }
 
             if (!trusted) {
-                LOG.error("No suitable trusted certificate found in truststore.",
-                         ce);
+                LOG.error("No suitable trusted certificate found in truststore.", ce);
                 throw ce;
             }
 
@@ -248,33 +252,38 @@ public class ExtendedX509TrustManager implements X509TrustManager {
      *         hashtable as value.
      */
     protected boolean isCertificateTrusted(X509Certificate cert) {
-        return trustedIssuers_.contains(cert);
+        return trustedIssuers_.containsValue(cert);
     }
 
     /**
-     * Returns <code>true</code> if the certificate X500Principal issuer is in
-     * our trust store.
-     * 
-     * NOTICE: Only the issuer X509Principal is compared. Not the issuer
-     * certificate.
+     * Returns <code>true</code> iff the certificate issuer is in our trust
+     * store and it have signed the cert.
      * 
      * @param cert
      *            The X509 certificate to check.
-     * @return <code>true</code> if the certificate issuer X500Principal is in
-     *         trustedIssuers list.
-     * 
+     * @return <code>true</code> if the certificate issuer is in
+     *         trustedIssuers list and have signed the cert.
      */
     protected boolean isCertificateIssuerTrusted(X509Certificate cert) {
-        X500Principal issuer= cert.getIssuerX500Principal();
-        boolean trusted= false;
-        Iterator trustedCerts= trustedIssuers_.iterator();
-        while (trustedCerts.hasNext()) {
-            X509Certificate trustedCert= (X509Certificate) trustedCerts.next();
-            X500Principal trustedSubject= trustedCert.getSubjectX500Principal();
-            LOG.debug("check " + issuer + " == " + trustedSubject);
-            if (issuer.equals(trustedSubject)) {
-                trusted= true;
-                break;
+        // 1. get cert issuer
+        Principal issuer = cert.getIssuerDN();
+        X509Certificate issuerCert = (X509Certificate) trustedIssuers_.get(issuer);
+        // 2. is issuer in trusted list?
+        if (issuerCert == null) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Issuer: " + issuer + " not in TrustStore");
+            }
+            return false;
+        }
+        // 3. verify that the issuer signed the cert;
+        boolean trusted = false;
+        PublicKey issuerPublicKey = issuerCert.getPublicKey();
+        try {
+            cert.verify(issuerPublicKey);
+            trusted = true;
+        } catch (GeneralSecurityException e) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e);
             }
         }
         return trusted;
@@ -288,21 +297,22 @@ public class ExtendedX509TrustManager implements X509TrustManager {
      * @see javax.net.ssl.X509TrustManager#getAcceptedIssuers()
      */
     public X509Certificate[] getAcceptedIssuers() {
-        X509Certificate[] defaultAcceptedIssuers= defaultTrustManager_.getAcceptedIssuers();
+        X509Certificate[] defaultAcceptedIssuers = defaultTrustManager_.getAcceptedIssuers();
 
         // merge JSSE default and trusted CA from truststore
-        int length= trustedIssuers_.size() + defaultAcceptedIssuers.length;
-        X509Certificate[] allAcceptedIssuers= new X509Certificate[length];
-        int i= 0;
-        for (int j= 0; j < defaultAcceptedIssuers.length; j++) {
-            X509Certificate certificate= defaultAcceptedIssuers[j];
-            allAcceptedIssuers[i]= certificate;
+        int length = trustedIssuers_.size() + defaultAcceptedIssuers.length;
+        X509Certificate[] allAcceptedIssuers = new X509Certificate[length];
+        int i = 0;
+        for (int j = 0; j < defaultAcceptedIssuers.length; j++) {
+            X509Certificate certificate = defaultAcceptedIssuers[j];
+            allAcceptedIssuers[i] = certificate;
             i++;
         }
-        Iterator trustedCerts= trustedIssuers_.iterator();
+        Collection issuers = trustedIssuers_.values();
+        Iterator trustedCerts = issuers.iterator();
         while (trustedCerts.hasNext()) {
-            X509Certificate certificate= (X509Certificate) trustedCerts.next();
-            allAcceptedIssuers[i]= certificate;
+            X509Certificate certificate = (X509Certificate) trustedCerts.next();
+            allAcceptedIssuers[i] = certificate;
             i++;
         }
 
