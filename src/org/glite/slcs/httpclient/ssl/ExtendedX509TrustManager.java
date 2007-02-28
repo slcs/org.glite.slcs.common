@@ -1,5 +1,5 @@
 /*
- * $Id: ExtendedX509TrustManager.java,v 1.4 2007/02/28 11:44:08 vtschopp Exp $
+ * $Id: ExtendedX509TrustManager.java,v 1.5 2007/02/28 13:02:23 vtschopp Exp $
  * 
  * Created on Aug 8, 2006 by tschopp
  *
@@ -34,7 +34,7 @@ import org.apache.commons.logging.LogFactory;
  * {@link X509TrustManager} with additional trusted CAs stored in a trust store.
  * 
  * @author Valery Tschoppp <tschopp@switch.ch>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ExtendedX509TrustManager implements X509TrustManager {
 
@@ -258,7 +258,7 @@ public class ExtendedX509TrustManager implements X509TrustManager {
         }
 
         if (!trusted) {
-            LOG.error("No trusted certificate issuer found in TrustStore");
+            LOG.warn("No trusted issuer found in TrustStore for: " + cert.getSubjectDN());
         }
 
         return trusted;
