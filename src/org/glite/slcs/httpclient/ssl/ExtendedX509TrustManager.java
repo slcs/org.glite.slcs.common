@@ -1,5 +1,5 @@
 /*
- * $Id: ExtendedX509TrustManager.java,v 1.5 2007/02/28 13:02:23 vtschopp Exp $
+ * $Id: ExtendedX509TrustManager.java,v 1.6 2007/03/01 13:46:29 vtschopp Exp $
  * 
  * Created on Aug 8, 2006 by tschopp
  *
@@ -34,7 +34,7 @@ import org.apache.commons.logging.LogFactory;
  * {@link X509TrustManager} with additional trusted CAs stored in a trust store.
  * 
  * @author Valery Tschoppp <tschopp@switch.ch>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class ExtendedX509TrustManager implements X509TrustManager {
 
@@ -171,7 +171,6 @@ public class ExtendedX509TrustManager implements X509TrustManager {
      */
     public void checkServerTrusted(X509Certificate[] chain, String authType)
             throws CertificateException {
-        // XXX
         if (LOG.isDebugEnabled()) {
             LOG.debug("Certificate chain:");
             if (chain != null) {
@@ -237,6 +236,7 @@ public class ExtendedX509TrustManager implements X509TrustManager {
      *         trustedIssuers list and have signed the cert.
      */
     protected boolean isCertificateIssuerTrusted(X509Certificate cert) {
+        //TODO: checks CA CRL
         // checks if an trusted issuer have signed the certificate
         boolean trusted = false;
         Iterator issuers = trustedIssuers_.iterator();
