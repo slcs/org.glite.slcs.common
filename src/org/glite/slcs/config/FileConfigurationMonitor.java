@@ -1,5 +1,5 @@
 /*
- * $Id: FileConfigurationMonitor.java,v 1.4 2007/02/19 13:19:37 vtschopp Exp $
+ * $Id: FileConfigurationMonitor.java,v 1.5 2007/03/14 13:21:17 vtschopp Exp $
  * 
  * Created on Aug 25, 2006 by Valery Tschopp <tschopp@switch.ch>
  *
@@ -24,8 +24,8 @@ import org.apache.commons.logging.LogFactory;
  * send a FileConfigurationEvent to all the registered
  * FileConfigurationListener.
  * 
- * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.4 $
+ * @author Valery Tschopp &lt;tschopp@switch.ch&gt;
+ * @version $Revision: 1.5 $
  */
 public class FileConfigurationMonitor extends Thread {
 
@@ -125,8 +125,8 @@ public class FileConfigurationMonitor extends Thread {
      */
     public void run() {
         running_ = true;
-        LOG.info("Monitor for file: " + file_.getAbsolutePath()
-                + " started");
+        LOG.info("Monitor (" + monitoringInterval_ + " ms) for file: " + file_.getAbsolutePath()
+                + " started" );
         // start the monitoring thread for the file
         while (running_) {
             try {
