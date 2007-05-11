@@ -1,5 +1,5 @@
 /*
- * $Id: Certificate.java,v 1.2 2006/10/24 08:54:01 vtschopp Exp $
+ * $Id: Certificate.java,v 1.3 2007/05/11 11:34:17 vtschopp Exp $
  * 
  * Created on Jun 14, 2006 by tschopp
  *
@@ -15,18 +15,17 @@ import java.io.Reader;
 import java.security.GeneralSecurityException;
 import java.security.cert.X509Certificate;
 
-import org.glite.slcs.pki.bouncycastle.Codec;
-import org.glite.slcs.util.Utils;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.glite.slcs.pki.bouncycastle.Codec;
+import org.glite.slcs.util.Utils;
 
 /**
  * Certificate is a wrapper class for the X509Certificate. Used to store a
  * certificate with its chain and read/write it from/to file.
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class Certificate {
 
@@ -162,4 +161,17 @@ public class Certificate {
         return sb.toString();
     }
 
+    /**
+     * @return the X509 certificate
+     */
+    public X509Certificate[] getCertificateChain() {
+        return chain_;
+    }
+    
+    /**
+     * @return the X509 certificate chain
+     */
+    public X509Certificate getCertificate() {
+        return cert_;
+    }
 }
