@@ -1,7 +1,7 @@
 
 <!-- STANDALONE build for org.glite.slcs.common -->
 <!-- Valery Tschopp <tschopp@switch.ch> -->
-<!-- $Id: build.standalone.xml,v 1.6 2007/03/01 13:57:21 vtschopp Exp $ -->
+<!-- $Id: build.standalone.xml,v 1.7 2007/07/06 13:24:04 vtschopp Exp $ -->
 
 <project name="org.glite.slcs.common" default="package" basedir=".">
 
@@ -57,7 +57,7 @@
 			<include name="commons-collections/3.2/noarch/commons-collections-3.2.jar" />
 			<include name="commons-configuration/1.2/noarch/commons-configuration-1.2.jar" />
 			<include name="commons-httpclient/3.0.1/noarch/commons-httpclient-3.0.1.jar" />
-			<include name="commons-lang/2.1/noarch/commons-lang-2.1.jar" />
+			<include name="commons-lang/2.1.0/noarch/commons-lang-2.1.jar" />
 			<include name="commons-logging/1.0.4/noarch/commons-logging.jar" />
 			<include name="log4j/1.2.8/noarch/dist/lib/log4j-1.2.8.jar" />
 		</fileset>
