@@ -7,7 +7,7 @@
     ETICS build for org.glite.slcs.common
 
     Author: Valery Tschopp <tschopp@switch.ch>
-    Version: $Id: build.etics.xml,v 1.1 2007/07/16 13:18:21 vtschopp Exp $
+    Version: $Id: build.etics.xml,v 1.2 2007/07/16 14:30:04 vtschopp Exp $
 -->
 <project name="org.glite.slcs.common" default="package" basedir=".">
 
@@ -54,6 +54,17 @@
             <classpath refid="compile.classpath" />
         </javac>
     </target>
+
+    <target name="test" depends="compile">
+        <echo message="test..."/>
+    </target>
+
+
+    <target name="install" depends="compile">
+        <echo message="install..."/>
+    </target>
+    
+
 
     <target name="package" depends="clean,compile">
         <!-- distribution directory -->
