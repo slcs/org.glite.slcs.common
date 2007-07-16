@@ -7,11 +7,12 @@
     ETICS build for org.glite.slcs.common
 
     Author: Valery Tschopp <tschopp@switch.ch>
-    Version: $Id: build.etics.xml,v 1.2 2007/07/16 14:30:04 vtschopp Exp $
+    Version: $Id: build.etics.xml,v 1.3 2007/07/16 15:43:09 vtschopp Exp $
 -->
 <project name="org.glite.slcs.common" default="package" basedir=".">
 
     <property name="workspace.dir" location=".."/>
+    <property name="stage.dir" location="${workspace.dir}/stage"/>
     
     <!-- ETICS externals defs -->
     <import file="${workspace.dir}/org.glite.slcs/project/etics-externals.xml"/>
@@ -55,6 +56,12 @@
         </javac>
     </target>
 
+    <target name="jar" depends="compile">
+        <!-- jar all classes -->
+        <jar jarfile="${build.dir}/${slcs.common.jarfile}" basedir="${build.dir}" />
+    </target>
+    
+
     <target name="test" depends="compile">
         <echo message="test..."/>
     </target>
@@ -62,6 +69,9 @@
 
     <target name="install" depends="compile">
         <echo message="install..."/>
+        <property name="stage.share.java.dir" location="${stage.dir}/share/java"/>
+        <mkdir dir="${stage.share.java.dir}"/>
+        <jar jarfile="${stage.share.java.dir}/${slcs.common.jarfile}" basedir="${build.dir}" />
     </target>
     
 
