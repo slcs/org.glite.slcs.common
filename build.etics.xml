@@ -7,98 +7,111 @@
     ETICS build for org.glite.slcs.common
 
     Author: Valery Tschopp <tschopp@switch.ch>
-    Version: $Id: build.etics.xml,v 1.3 2007/07/16 15:43:09 vtschopp Exp $
+    Version: $Id: build.etics.xml,v 1.4 2007/07/17 14:42:34 vtschopp Exp $
 -->
-<project name="org.glite.slcs.common" default="package" basedir=".">
-
-    <property name="workspace.dir" location=".."/>
-    <property name="stage.dir" location="${workspace.dir}/stage"/>
-    
-    <!-- ETICS externals defs -->
-    <import file="${workspace.dir}/org.glite.slcs/project/etics-externals.xml"/>
+<project name="org.glite.slcs.common" default="dist" basedir=".">
 
     <!-- local properties -->
     <property file="build.etics.properties" />
 
-
-    <!-- set global properties for this local build -->
+    <!-- directories -->
+    <property name="workspace.dir" location=".."/>
+    <property name="stage.dir" location="${workspace.dir}/stage"/>
+    
     <property name="src.dir" location="${basedir}/src" />
     <property name="build.dir" location="${basedir}/build" />
+    <property name="build.classes.dir" location="${build.dir}/classes" />
     <property name="dist.dir" location="${basedir}/dist" />
+    
+    <!-- ETICS externals defs -->
+    <import file="${workspace.dir}/org.glite.slcs/project/etics-externals.xml"/>
 
+    <!-- init -->
     <target name="init" depends="">
         <tstamp />
         <!-- libraries from ETICS repository -->
         <path id="compile.classpath">
-            <fileset refid="bouncycastle.bcprov.fileset"/>
-            <fileset refid="commons-codec.fileset"/>
-            <fileset refid="commons-collections.fileset"/>
-            <fileset refid="commons-configuration.fileset"/>
-            <fileset refid="commons-httpclient.fileset"/>
-            <fileset refid="commons-lang.fileset"/>
-            <fileset refid="commons-logging.fileset"/>
-            <fileset refid="log4j.fileset"/>
+            <path refid="ext.bouncycastle.bcprov.classpath"/>
+            <path refid="ext.commons-codec.classpath"/>
+            <path refid="ext.commons-collections.classpath"/>
+            <path refid="ext.commons-configuration.classpath"/>
+            <path refid="ext.commons-httpclient.classpath"/>
+            <path refid="ext.commons-lang.classpath"/>
+            <path refid="ext.commons-logging.classpath"/>
+            <path refid="ext.log4j.classpath"/>
         </path>
         <path id="test.classpath">
             <path refid="compile.classpath"/>
-            <fileset refid="junit.fileset"/>
+            <path refid="ext.junit.fileset"/>
         </path>
     </target>
 
+    <!-- prepare -->
     <target name="prepare" depends="init">
-        <mkdir dir="${build.dir}" />
+        <mkdir dir="${build.classes.dir}" />
     </target>
 
+    <!-- compile -->
     <target name="compile" depends="prepare">
+        <echo message="compile..."/>
         <!-- Compile the java code from ${src} into ${build} -->
-        <javac srcdir="${src.dir}" debug="true" destdir="${build.dir}">
+        <javac srcdir="${src.dir}" debug="true" destdir="${build.classes.dir}">
             <classpath refid="compile.classpath" />
         </javac>
     </target>
 
-    <target name="jar" depends="compile">
-        <!-- jar all classes -->
-        <jar jarfile="${build.dir}/${slcs.common.jarfile}" basedir="${build.dir}" />
-    </target>
-    
-
+    <!-- test -->
     <target name="test" depends="compile">
         <echo message="test..."/>
     </target>
 
-
-    <target name="install" depends="compile">
-        <echo message="install..."/>
-        <property name="stage.share.java.dir" location="${stage.dir}/share/java"/>
-        <mkdir dir="${stage.share.java.dir}"/>
-        <jar jarfile="${stage.share.java.dir}/${slcs.common.jarfile}" basedir="${build.dir}" />
+    <!-- jar -->
+    <target name="jar" depends="compile">
+        <!-- jar all classes -->
+        <jar jarfile="${build.dir}/${slcs.common.name}.jar" basedir="${build.classes.dir}" />
     </target>
     
-
-
-    <target name="package" depends="clean,compile">
-        <!-- distribution directory -->
-        <property name="dist.share.dir" location="${dist.dir}/share/java" />
-        <property name="dist.externals.dir" location="${dist.dir}/externals/share/java" />
-        <mkdir dir="${dist.dir}" />
-        <mkdir dir="${dist.share.dir}" />
-        <mkdir dir="${dist.externals.dir}" />
-        <!-- jar all classes in share/java -->
-        <property name="slcs.common.jar.file" location="${dist.share.dir}/${slcs.common.jarfile}" />
-        <jar jarfile="${slcs.common.jar.file}" basedir="${build.dir}" />
-        <!-- copy all third party libs in externals/share/java -->
-        <copy todir="${dist.externals.dir}" flatten="true">
-            <fileset refid="bouncycastle.bcprov.fileset"/>
-            <fileset refid="commons-codec.fileset"/>
-            <fileset refid="commons-collections.fileset"/>
-            <fileset refid="commons-configuration.fileset"/>
-            <fileset refid="commons-httpclient.fileset"/>
-            <fileset refid="commons-lang.fileset"/>
-            <fileset refid="commons-logging.fileset"/>
-            <fileset refid="log4j.fileset"/>
-        </copy>
+    <!-- install in stage dir -->
+    <target name="stage" depends="jar">
+        <property name="stage.share.java.dir" location="${stage.dir}/share/java"/>
+        <echo message="stage in ${stage.share.java.dir}"/>
+        <mkdir dir="${stage.share.java.dir}"/>
+        <copy file="${build.dir}/${slcs.common.name}.jar" todir="${stage.share.java.dir}"/>
+    </target>
+    
+    <!-- install in ${prefix} dir -->
+    <target name="install" depends="jar">
+        <property name="install.share.java.dir" location="${prefix}/share/java"/>
+        <echo message="install in ${install.share.java.dir}"/>
+        <mkdir dir="${install.share.java.dir}"/>
+        <copy file="${build.dir}/${slcs.common.name}.jar" todir="${install.share.java.dir}"/>
     </target>
 
+
+    <!-- package standalone lib with full dependencies -->
+    <target name="dist" depends="clean,jar">
+        <echo message="dist-standalone..."/>
+        <!-- distribution directory -->        
+        <property name="dist.share.java.dir" location="${dist.dir}/share/java" />
+        <property name="dist.externals.java.dir" location="${dist.dir}/externals/share/java" />
+        <mkdir dir="${dist.share.java.dir}" />
+        <mkdir dir="${dist.externals.java.dir}" />
+        <!-- copy jar file -->
+        <copy file="${build.dir}/${slcs.common.name}.jar" todir="${dist.share.java.dir}"/>
+        <!-- copy all third party libs in externals/share/java -->
+        <copy todir="${dist.externals.java.dir}" flatten="true">
+            <fileset refid="ext.bouncycastle.bcprov.fileset"/>
+            <fileset refid="ext.commons-codec.fileset"/>
+            <fileset refid="ext.commons-collections.fileset"/>
+            <fileset refid="ext.commons-configuration.fileset"/>
+            <fileset refid="ext.commons-httpclient.fileset"/>
+            <fileset refid="ext.commons-lang.fileset"/>
+            <fileset refid="ext.commons-logging.fileset"/>
+            <fileset refid="ext.log4j.fileset"/>
+        </copy>
+    </target>
+    
+    <!-- clean -->
     <target name="clean">
         <!-- Delete the ${build} and ${dist} directory trees -->
         <delete dir="${build.dir}" />
