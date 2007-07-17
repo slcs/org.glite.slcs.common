@@ -7,7 +7,7 @@
     ETICS build for org.glite.slcs.common
 
     Author: Valery Tschopp <tschopp@switch.ch>
-    Version: $Id: build.etics.xml,v 1.4 2007/07/17 14:42:34 vtschopp Exp $
+    Version: $Id: build.etics.xml,v 1.5 2007/07/17 15:46:34 vtschopp Exp $
 -->
 <project name="org.glite.slcs.common" default="dist" basedir=".">
 
@@ -24,7 +24,7 @@
     <property name="dist.dir" location="${basedir}/dist" />
     
     <!-- ETICS externals defs -->
-    <import file="${workspace.dir}/org.glite.slcs/project/etics-externals.xml"/>
+    <import file="project/etics-externals.xml"/>
 
     <!-- init -->
     <target name="init" depends="">
