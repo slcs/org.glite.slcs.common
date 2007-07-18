@@ -7,9 +7,9 @@
     ETICS build for org.glite.slcs.common
 
     Author: Valery Tschopp <tschopp@switch.ch>
-    Version: $Id: build.etics.xml,v 1.7 2007/07/18 12:20:51 vtschopp Exp $
+    Version: $Id: build.etics.xml,v 1.8 2007/07/18 15:35:02 vtschopp Exp $
 -->
-<project name="org.glite.slcs.common" default="dist" basedir=".">
+<project name="org.glite.slcs.common" default="stage" basedir=".">
 
     <!-- ETICS externals defs -->
     <import file="project/etics-externals.xml"/>
@@ -20,18 +20,23 @@
     <!-- directories -->
     <property name="workspace.dir" location=".."/>
     <property name="stage.dir" location="${workspace.dir}/stage"/>
+    <property name="stage.lib.dir" location="${stage.dir}/share/java"/>
+
     
     <property name="src.dir" location="${basedir}/src" />
+    <property name="test.src.dir" location="${basedir}/test" />
     <property name="build.dir" location="${basedir}/build" />
-    <property name="build.classes.dir" location="${build.dir}/classes" />
-    <property name="build.glite.dir" location="${build.dir}/glite" />
-    <property name="dist.dir" location="${basedir}/dist" />
-    
+    <property name="classes.dir" location="${build.dir}/classes" />
+    <property name="test.classes.dir" location="${build.dir}/test/classes" />
+
+    <property name="install.dir" location="${basedir}/glite" />
+ 
     <!-- init -->
     <target name="init" depends="">
         <tstamp />
         <!-- libraries from ETICS repository -->
         <path id="compile.classpath">
+            <pathelement path="${classes.dir}"/>
             <path refid="ext.bouncycastle.bcprov.classpath"/>
             <path refid="ext.commons-codec.classpath"/>
             <path refid="ext.commons-collections.classpath"/>
@@ -43,20 +48,22 @@
         </path>
         <path id="test.classpath">
             <path refid="compile.classpath"/>
+            <pathelement path="${test.classes.dir}"/>
             <path refid="ext.junit.fileset"/>
         </path>
     </target>
 
     <!-- prepare -->
     <target name="prepare" depends="init">
-        <mkdir dir="${build.classes.dir}" />
+        <mkdir dir="${classes.dir}" />
+        <mkdir dir="${test.classes.dir}" />
     </target>
 
     <!-- compile -->
     <target name="compile" depends="prepare">
         <echo message="compile..."/>
         <!-- Compile the java code from ${src} into ${build} -->
-        <javac srcdir="${src.dir}" debug="true" destdir="${build.classes.dir}">
+        <javac srcdir="${src.dir}" debug="true" destdir="${classes.dir}">
             <classpath refid="compile.classpath" />
         </javac>
     </target>
@@ -69,57 +76,37 @@
     <!-- jar -->
     <target name="jar" depends="compile">
         <!-- jar all classes -->
-        <jar jarfile="${build.dir}/${module.name}.jar" basedir="${build.classes.dir}" />
+        <jar jarfile="${build.dir}/${module.name}.jar" basedir="${classes.dir}" />
     </target>
     
-    <!-- install in stage dir -->
+    <!-- stage in ../stage dir -->
     <target name="stage" depends="jar">
-        <property name="stage.share.java.dir" location="${stage.dir}/share/java"/>
-        <echo message="stage in ${stage.share.java.dir}"/>
-        <mkdir dir="${stage.share.java.dir}"/>
-        <copy file="${build.dir}/${module.name}.jar" todir="${stage.share.java.dir}"/>
+        <echo message="stage in ${stage.lib.dir}"/>
+        <mkdir dir="${stage.lib.dir}"/>
+        <copy file="${build.dir}/${module.name}.jar" todir="${stage.lib.dir}"/>
     </target>
     
-    <!-- install in ${prefix} dir -->
-    <target name="install" depends="jar">
-        <property name="install.share.java.dir" location="${build.glite.dir}/share/java"/>
-        <echo message="prepare install in ${build.glite.dir}"/>
-        <mkdir dir="${install.share.java.dir}"/>
-        <copy file="${build.dir}/${module.name}.jar" todir="${install.share.java.dir}"/>
+    <!-- prepare install layout -->
+    <target name="install-layout" depends="jar">
+        <echo message="prepare install in ${install.dir}"/>
+        <property name="install.lib.dir" location="${install.dir}/share/java"/>
+        <mkdir dir="${install.lib.dir}"/>
+        <copy file="${build.dir}/${module.name}.jar" todir="${install.lib.dir}"/>
+    </target>
+
+    <!-- install used by ETICS packager: ant -Dprefix=${prefix} install -->
+    <target name="install" depends="install-layout">
         <echo message="install in ${prefix}"/>
         <copy todir="${prefix}">
-            <fileset dir="${build.glite.dir}"/>
+            <fileset dir="${install.dir}"/>
         </copy>
     </target>
 
-    <!-- package standalone lib with full dependencies -->
-    <target name="dist" depends="clean,jar">
-        <echo message="dist-standalone..."/>
-        <!-- distribution directory -->        
-        <property name="dist.share.java.dir" location="${dist.dir}/share/java" />
-        <property name="dist.externals.java.dir" location="${dist.dir}/externals/share/java" />
-        <mkdir dir="${dist.share.java.dir}" />
-        <mkdir dir="${dist.externals.java.dir}" />
-        <!-- copy jar file -->
-        <copy file="${build.dir}/${module.name}.jar" todir="${dist.share.java.dir}"/>
-        <!-- copy all third party libs in externals/share/java -->
-        <copy todir="${dist.externals.java.dir}" flatten="true">
-            <fileset refid="ext.bouncycastle.bcprov.fileset"/>
-            <fileset refid="ext.commons-codec.fileset"/>
-            <fileset refid="ext.commons-collections.fileset"/>
-            <fileset refid="ext.commons-configuration.fileset"/>
-            <fileset refid="ext.commons-httpclient.fileset"/>
-            <fileset refid="ext.commons-lang.fileset"/>
-            <fileset refid="ext.commons-logging.fileset"/>
-            <fileset refid="ext.log4j.fileset"/>
-        </copy>
-    </target>
-    
     <!-- clean -->
     <target name="clean">
         <!-- Delete the ${build} and ${dist} directory trees -->
         <delete dir="${build.dir}" failonerror="false"/>
-        <delete dir="${dist.dir}" failonerror="false"/>
+        <delete dir="${install.dir}" failonerror="false"/>
         <!-- etics build system clean up -->
         <delete dir="RPMS" failonerror="false"/>
         <delete dir="tgz" failonerror="false"/>
