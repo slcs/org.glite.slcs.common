@@ -7,7 +7,7 @@
     ETICS build for org.glite.slcs.common
 
     Author: Valery Tschopp <tschopp@switch.ch>
-    Version: $Id: build.etics.xml,v 1.6 2007/07/18 09:14:46 vtschopp Exp $
+    Version: $Id: build.etics.xml,v 1.7 2007/07/18 12:20:51 vtschopp Exp $
 -->
 <project name="org.glite.slcs.common" default="dist" basedir=".">
 
@@ -69,7 +69,7 @@
     <!-- jar -->
     <target name="jar" depends="compile">
         <!-- jar all classes -->
-        <jar jarfile="${build.dir}/${slcs.common.name}.jar" basedir="${build.classes.dir}" />
+        <jar jarfile="${build.dir}/${module.name}.jar" basedir="${build.classes.dir}" />
     </target>
     
     <!-- install in stage dir -->
@@ -77,7 +77,7 @@
         <property name="stage.share.java.dir" location="${stage.dir}/share/java"/>
         <echo message="stage in ${stage.share.java.dir}"/>
         <mkdir dir="${stage.share.java.dir}"/>
-        <copy file="${build.dir}/${slcs.common.name}.jar" todir="${stage.share.java.dir}"/>
+        <copy file="${build.dir}/${module.name}.jar" todir="${stage.share.java.dir}"/>
     </target>
     
     <!-- install in ${prefix} dir -->
@@ -85,7 +85,7 @@
         <property name="install.share.java.dir" location="${build.glite.dir}/share/java"/>
         <echo message="prepare install in ${build.glite.dir}"/>
         <mkdir dir="${install.share.java.dir}"/>
-        <copy file="${build.dir}/${slcs.common.name}.jar" todir="${install.share.java.dir}"/>
+        <copy file="${build.dir}/${module.name}.jar" todir="${install.share.java.dir}"/>
         <echo message="install in ${prefix}"/>
         <copy todir="${prefix}">
             <fileset dir="${build.glite.dir}"/>
@@ -101,7 +101,7 @@
         <mkdir dir="${dist.share.java.dir}" />
         <mkdir dir="${dist.externals.java.dir}" />
         <!-- copy jar file -->
-        <copy file="${build.dir}/${slcs.common.name}.jar" todir="${dist.share.java.dir}"/>
+        <copy file="${build.dir}/${module.name}.jar" todir="${dist.share.java.dir}"/>
         <!-- copy all third party libs in externals/share/java -->
         <copy todir="${dist.externals.java.dir}" flatten="true">
             <fileset refid="ext.bouncycastle.bcprov.fileset"/>
