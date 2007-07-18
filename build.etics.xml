@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
-    Copyright (c) Members of the EGEE Collaboration. 2004 
+    Copyright (c) Members of the EGEE Collaboration. 2007 
     See http://eu-egee.org/partners/ for details on the copyright holders
     For license conditions see the license file or http://eu-egee.org/license.html
 
     ETICS build for org.glite.slcs.common
 
     Author: Valery Tschopp <tschopp@switch.ch>
-    Version: $Id: build.etics.xml,v 1.5 2007/07/17 15:46:34 vtschopp Exp $
+    Version: $Id: build.etics.xml,v 1.6 2007/07/18 09:14:46 vtschopp Exp $
 -->
 <project name="org.glite.slcs.common" default="dist" basedir=".">
+
+    <!-- ETICS externals defs -->
+    <import file="project/etics-externals.xml"/>
 
     <!-- local properties -->
     <property file="build.etics.properties" />
@@ -21,11 +24,9 @@
     <property name="src.dir" location="${basedir}/src" />
     <property name="build.dir" location="${basedir}/build" />
     <property name="build.classes.dir" location="${build.dir}/classes" />
+    <property name="build.glite.dir" location="${build.dir}/glite" />
     <property name="dist.dir" location="${basedir}/dist" />
     
-    <!-- ETICS externals defs -->
-    <import file="project/etics-externals.xml"/>
-
     <!-- init -->
     <target name="init" depends="">
         <tstamp />
@@ -81,12 +82,15 @@
     
     <!-- install in ${prefix} dir -->
     <target name="install" depends="jar">
-        <property name="install.share.java.dir" location="${prefix}/share/java"/>
-        <echo message="install in ${install.share.java.dir}"/>
+        <property name="install.share.java.dir" location="${build.glite.dir}/share/java"/>
+        <echo message="prepare install in ${build.glite.dir}"/>
         <mkdir dir="${install.share.java.dir}"/>
         <copy file="${build.dir}/${slcs.common.name}.jar" todir="${install.share.java.dir}"/>
+        <echo message="install in ${prefix}"/>
+        <copy todir="${prefix}">
+            <fileset dir="${build.glite.dir}"/>
+        </copy>
     </target>
-
 
     <!-- package standalone lib with full dependencies -->
     <target name="dist" depends="clean,jar">
@@ -114,7 +118,11 @@
     <!-- clean -->
     <target name="clean">
         <!-- Delete the ${build} and ${dist} directory trees -->
-        <delete dir="${build.dir}" />
-        <delete dir="${dist.dir}" />
+        <delete dir="${build.dir}" failonerror="false"/>
+        <delete dir="${dist.dir}" failonerror="false"/>
+        <!-- etics build system clean up -->
+        <delete dir="RPMS" failonerror="false"/>
+        <delete dir="tgz" failonerror="false"/>
+        <delete dir="rpmbuild" failonerror="false"/>
     </target>
 </project>
