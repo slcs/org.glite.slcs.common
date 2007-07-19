@@ -1,186 +1,115 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!--
-	Copyright (c) 2004 on behalf of the EU EGEE Project: 
-	The European Organization for Nuclear Research (CERN), 
-	Istituto Nazionale di Fisica Nucleare (INFN), Italy
-	Datamat Spa, Italy
-	Centre National de la Recherche Scientifique (CNRS), France
-	CS Systeme d'Information (CSSI), France
-	Royal Institute of Technology, Center for Parallel Computers (KTH-PDC), Sweden
-	Universiteit van Amsterdam (UvA), Netherlands
-	University of Helsinki (UH.HIP), Finland
-	University of Bergen (UiB), Norway
-	Council for the Central Laboratory of the Research Councils (CCLRC), United Kingdom
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Copyright (c) Members of the EGEE Collaboration. 2007 
+    See http://eu-egee.org/partners/ for details on the copyright holders
+    For license conditions see the license file or http://eu-egee.org/license.html
 
-	Build file for the GLite slcs common component
-	
-	Authors: Joachim Flammer <Joachim.Flammer@Cern.ch>	
-	Version info: $Id: build.xml,v 1.8 2006/10/31 13:40:59 vtschopp Exp $
-	Release: $Name:  $
+    ETICS build for org.glite.slcs.common
 
-	Revision history:
-	$Log: build.xml,v $
-	Revision 1.8  2006/10/31 13:40:59  vtschopp
-	RPM spec summary and description updated.
-	external libraries hack removed.
-
-	Revision 1.7  2006/10/31 09:11:32  vtschopp
-	uses ext.bouncycastle.classpath
-
-	Revision 1.6  2006/10/30 16:30:39  vtschopp
-	uses only all new external libraries and bouncycastle 1.34
-
-	Revision 1.5  2006/09/21 15:46:06  vtschopp
-	XXX workspace/external-lib renamed workspace/repository-slcs
-
-	Revision 1.4  2006/09/21 14:18:38  vtschopp
-	add log4j.properties in test.classpath for the JUnit - logging on stdout
-
-	Revision 1.3  2006/09/21 13:53:12  vtschopp
-	XXX: hack for external lib not yet in JRA1MW repository
-
-	Revision 1.2  2006/09/21 12:32:52  vtschopp
-	add local external lib as long as ext.* are not in repository.
-
-	Revision 1.1.1.1  2006/09/14 12:23:09  vtschopp
-	SWITCHslcs common library
-
-	Revision 1.7  2006/04/26 11:39:55  flammer
-	Corrected wrong template syntax.
-
-	Revision 1.6  2005/04/17 10:29:35  dimeglio
-	Split module.build from version.properties
-
-	Revision 1.5  2004/07/20 16:08:30  flammer
-	Changed incorrect my_... instead of .._template entries for subsystem and component.
-	
-	Revision 1.4  2004/07/16 16:32:53  flammer
-	Added comment where to add language target.
-	
-	Revision 1.3  2004/07/16 14:56:55  flammer
-	Corrected input path of build.properties.
-	
-	Revision 1.2  2004/07/06 20:43:19  flammer
-	Update of configure & targets.
-	
-	Revision 1.1.1.1  2004/06/18 12:40:17  flammer
-	Added general component template.
-	
-	
+    Author: Valery Tschopp <tschopp@switch.ch>
+    Version: $Id: build.xml,v 1.9 2007/07/19 12:17:40 vtschopp Exp $
 -->
+<project name="org.glite.slcs.common" default="stage" basedir=".">
 
-<project name="common" default="dist">
+    <!-- ETICS externals defs -->
+    <import file="project/etics-externals.xml"/>
 
-	<!-- ==============================================
-	      Builds the GLite slcs common component
-	     ============================================== -->
-	
-	<!-- =========================================
-	      Import properties (order is important)
-	     ========================================= -->
-	
-	<!-- Import baseline properties & user properties -->
-	<import file="../org.glite/project/baseline.properties.xml" />
+    <!-- local properties -->
+    <property file="build.etics.properties" />
 
-	<!-- import component build properties,
-		        component properties &
-		        component common properties -->
-	<import file="./project/properties.xml"/>
-	
-	<!-- import subsystem build properties,
-		        subsystem properties &
-		        subsystem common properties -->
-	<import file="${subsystem.properties.file}"/>
+    <!-- directories -->
+    <property name="workspace.dir" location=".."/>
+    <property name="stage.dir" location="${workspace.dir}/stage"/>
+    <property name="stage.lib.dir" location="${stage.dir}/share/java"/>
 
-	<!-- import global build properties &
-		        global properties -->
-	<import file="${global.properties.file}" />
-		
-	<!-- =========================================
- 	      Load dependency property files (order is important)
-	     ========================================= -->
-	<property file="${user.dependencies.file}"/>
-	<property file="${component.dependencies.file}" />
-	<property file="${subsystem.dependencies.file}" />
-	<property file="${global.dependencies.file}"/>
+    
+    <property name="src.dir" location="${basedir}/src" />
+    <property name="test.src.dir" location="${basedir}/test" />
+    <property name="build.dir" location="${basedir}/build" />
+    <property name="classes.dir" location="${build.dir}/classes" />
+    <property name="test.classes.dir" location="${build.dir}/test/classes" />
 
-	<!-- =========================================
-                 Load configuration definitions (order is important)
-             ========================================= -->
-        <import file="${global.configure.options.file}"/>
-        <import file="${component.configure.options.file}"/>
-	
-	<!-- =========================================
-      	      Import task definitions (order is important)
-	     ========================================= -->
-	<import file="${subsystem.taskdefs.file}" />
-	<import file="${global.taskdefs.file}" />
-	
-	<!-- =========================================
-		 Load common targets
-	     ========================================= -->
-	<!-- Put your language target (java/c++-ant/c++-autotool/perl) here -->
-	<import file="${global.targets-java.file}" />
-		
-	<!-- =========================================
-		 Load version file 
-	     ========================================= -->
-	<property file="${module.version.file}"/>
-	<property file="${module.build.file}"/>
-	
-	<!-- ==============================================
-		 Local private targets
-	     ============================================== -->
-	
-	<target name="localinit"
-		description="Module specific initialization tasks">
-
-        <!-- Set compile classpaths -->
+    <property name="install.dir" location="${basedir}/glite" />
+ 
+    <!-- init -->
+    <target name="init" depends="">
+        <tstamp />
+        <!-- libraries from ETICS repository -->
         <path id="compile.classpath">
-            <!-- stage classpath -->
-            <path refid="stage.classpath"/>
-            <!-- module classpath -->
-            <path refid="module.classpath"/>
-            <!-- external dependencies -->
-            <!-- log4j classpath -->
-            <path refid="ext.log4j.classpath"/>
-            <!-- commons-logging classpath -->
-            <path refid="ext.commons-logging.classpath"/>
-            <!-- bcprov-jdk14 + bcmail-jdk14 classpath -->
-            <path refid="ext.bouncycastle.classpath"/>
-            <!-- commons-configuration classpath  -->
+            <pathelement path="${classes.dir}"/>
+            <path refid="ext.bouncycastle.bcprov.classpath"/>
+            <path refid="ext.commons-codec.classpath"/>
+            <path refid="ext.commons-collections.classpath"/>
             <path refid="ext.commons-configuration.classpath"/>
-            <!-- commons-collections classpath -->
-            <path refid="ext.commons-collections.classpath"/> 
-            <!-- commons-lang classpath -->
-            <path refid="ext.commons-lang.classpath"/> 
-            <!-- commons-httpclient classpath -->
-            <path refid="ext.commons-httpclient.classpath"/> 
-            <!-- commons-codec classpath -->
-            <path refid="ext.commons-codec.classpath"/> 
-
+            <path refid="ext.commons-httpclient.classpath"/>
+            <path refid="ext.commons-lang.classpath"/>
+            <path refid="ext.commons-logging.classpath"/>
+            <path refid="ext.log4j.classpath"/>
         </path>
-
-        <!-- copy test log4j.properties -->
-        <copy file="${module.test.dir}/log4j.properties" todir="${module.test.classes.dir}" />
-        <!-- Set test classpaths -->
         <path id="test.classpath">
-            <!-- compile classpath -->
             <path refid="compile.classpath"/>
-            <!-- module test classpath -->
-            <path refid="module.test.classpath"/>
-            <!-- external dependencies -->
-            <!-- junit classpath -->
-            <path refid="ext.junit.classpath"/>
+            <pathelement path="${test.classes.dir}"/>
+            <path refid="ext.junit.fileset"/>
         </path>
-	</target>
-	
-	<target name="localcompile"
-		description="Module specific compile tasks">
-	</target>
+    </target>
 
-	<target name="localclean"
-		description="Module specific cleaning tasks">
-	</target>
-	
-</project>		
+    <!-- prepare -->
+    <target name="prepare" depends="init">
+        <mkdir dir="${classes.dir}" />
+        <mkdir dir="${test.classes.dir}" />
+    </target>
+
+    <!-- compile -->
+    <target name="compile" depends="prepare">
+        <echo message="compile..."/>
+        <!-- Compile the java code from ${src} into ${build} -->
+        <javac srcdir="${src.dir}" debug="true" destdir="${classes.dir}">
+            <classpath refid="compile.classpath" />
+        </javac>
+    </target>
+
+    <!-- test -->
+    <target name="test" depends="compile">
+        <echo message="test..."/>
+    </target>
+
+    <!-- jar -->
+    <target name="jar" depends="compile">
+        <!-- jar all classes -->
+        <jar jarfile="${build.dir}/${module.name}.jar" basedir="${classes.dir}" />
+    </target>
+    
+    <!-- stage in ../stage dir -->
+    <target name="stage" depends="jar">
+        <echo message="stage in ${stage.lib.dir}"/>
+        <mkdir dir="${stage.lib.dir}"/>
+        <copy file="${build.dir}/${module.name}.jar" todir="${stage.lib.dir}"/>
+    </target>
+    
+    <!-- prepare install layout -->
+    <target name="install-layout" depends="jar">
+        <echo message="prepare install in ${install.dir}"/>
+        <property name="install.lib.dir" location="${install.dir}/share/java"/>
+        <mkdir dir="${install.lib.dir}"/>
+        <copy file="${build.dir}/${module.name}.jar" todir="${install.lib.dir}"/>
+    </target>
+
+    <!-- install used by ETICS packager: ant -Dprefix=${prefix} install -->
+    <target name="install" depends="install-layout">
+        <echo message="install in ${prefix}"/>
+        <copy todir="${prefix}">
+            <fileset dir="${install.dir}"/>
+        </copy>
+    </target>
+
+    <!-- clean -->
+    <target name="clean">
+        <!-- Delete the ${build} and ${dist} directory trees -->
+        <delete dir="${build.dir}" failonerror="false"/>
+        <delete dir="${install.dir}" failonerror="false"/>
+        <!-- etics build system clean up -->
+        <delete dir="RPMS" failonerror="false"/>
+        <delete dir="tgz" failonerror="false"/>
+        <delete dir="rpmbuild" failonerror="false"/>
+    </target>
+</project>
