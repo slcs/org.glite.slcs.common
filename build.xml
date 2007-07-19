@@ -7,7 +7,7 @@
     ETICS build for org.glite.slcs.common
 
     Author: Valery Tschopp <tschopp@switch.ch>
-    Version: $Id: build.xml,v 1.9 2007/07/19 12:17:40 vtschopp Exp $
+    Version: $Id: build.xml,v 1.10 2007/07/19 12:18:24 vtschopp Exp $
 -->
 <project name="org.glite.slcs.common" default="stage" basedir=".">
 
@@ -15,7 +15,7 @@
     <import file="project/etics-externals.xml"/>
 
     <!-- local properties -->
-    <property file="build.etics.properties" />
+    <property file="build.properties" />
 
     <!-- directories -->
     <property name="workspace.dir" location=".."/>
