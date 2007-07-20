@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="bin/classes" path="src"/>
-	<classpathentry kind="src" output="bin/test/classes" path="test"/>
+	<classpathentry kind="src" output="build/classes" path="src"/>
+	<classpathentry kind="src" output="build/test/classes" path="test"/>
 	<classpathentry exported="true" kind="lib" path="/repository/externals/bouncycastle/1.34/noarch/jars/bcprov-jdk15-134.jar"/>
 	<classpathentry exported="true" kind="lib" path="/repository/externals/commons-logging/1.0.4/noarch/commons-logging.jar"/>
 	<classpathentry exported="true" kind="lib" path="/repository/externals/commons-configuration/1.2.0/noarch/commons-configuration-1.2.jar"/>
