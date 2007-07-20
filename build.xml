@@ -7,9 +7,14 @@
     ETICS build for org.glite.slcs.common
 
     Author: Valery Tschopp <tschopp@switch.ch>
-    Version: $Id: build.xml,v 1.10 2007/07/19 12:18:24 vtschopp Exp $
+    Version: $Id: build.xml,v 1.11 2007/07/20 13:17:55 vtschopp Exp $
 -->
 <project name="org.glite.slcs.common" default="stage" basedir=".">
+
+    <!-- workspace directories -->
+    <property name="workspace.dir" location=".."/>
+    <property name="stage.dir" location="${workspace.dir}/stage"/>
+    <property name="stage.lib.dir" location="${stage.dir}/share/java"/>
 
     <!-- ETICS externals defs -->
     <import file="project/etics-externals.xml"/>
@@ -17,16 +22,15 @@
     <!-- local properties -->
     <property file="build.properties" />
 
-    <!-- directories -->
-    <property name="workspace.dir" location=".."/>
-    <property name="stage.dir" location="${workspace.dir}/stage"/>
-    <property name="stage.lib.dir" location="${stage.dir}/share/java"/>
-
-    
+    <!-- local dirs -->    
     <property name="src.dir" location="${basedir}/src" />
+    <property name="doc.dir" location="${basedir}/doc" />
     <property name="test.src.dir" location="${basedir}/test" />
+    
+    <!-- build dirs -->
     <property name="build.dir" location="${basedir}/build" />
     <property name="classes.dir" location="${build.dir}/classes" />
+    <property name="javadoc.dir" location="${build.dir}/javadoc" />
     <property name="test.classes.dir" location="${build.dir}/test/classes" />
 
     <property name="install.dir" location="${basedir}/glite" />
@@ -78,20 +82,49 @@
         <!-- jar all classes -->
         <jar jarfile="${build.dir}/${module.name}.jar" basedir="${classes.dir}" />
     </target>
-    
-    <!-- stage in ../stage dir -->
-    <target name="stage" depends="jar">
-        <echo message="stage in ${stage.lib.dir}"/>
-        <mkdir dir="${stage.lib.dir}"/>
-        <copy file="${build.dir}/${module.name}.jar" todir="${stage.lib.dir}"/>
+
+    <!-- javadoc -->
+    <target name="javadoc">
+        <echo message="javadoc..."/>
+        <javadoc packagenames="org.glite.slcs.*"
+            sourcepath="${src.dir}"
+            destdir="${javadoc.dir}" />
     </target>
+
+    
     
     <!-- prepare install layout -->
     <target name="install-layout" depends="jar">
         <echo message="prepare install in ${install.dir}"/>
+        
         <property name="install.lib.dir" location="${install.dir}/share/java"/>
+        <property name="install.doc.dir" location="${install.dir}/share/doc/${module.name}"/>
+        <property name="install.javadoc.dir" location="${install.doc.dir}/api"/>
+        
+        <!-- create install dirs -->
         <mkdir dir="${install.lib.dir}"/>
+        <mkdir dir="${install.javadoc.dir}"/>
+        
+        <!-- copy jar file -->
         <copy file="${build.dir}/${module.name}.jar" todir="${install.lib.dir}"/>
+        
+        <!-- doc -->
+        <copy todir="${install.doc.dir}">
+            <fileset dir="${doc.dir}" />
+        </copy>
+        <!-- javadoc -->
+        <copy todir="${install.javadoc.dir}" failonerror="false">
+            <fileset dir="${javadoc.dir}" />
+        </copy>
+
+    </target>
+
+    <!-- stage in ../stage dir -->
+    <target name="stage" depends="install-layout">
+        <echo message="stage in ${stage.dir}"/>
+        <copy todir="${stage.dir}">
+            <fileset dir="${install.dir}"/>
+        </copy>
     </target>
 
     <!-- install used by ETICS packager: ant -Dprefix=${prefix} install -->
