@@ -1,5 +1,5 @@
 /*
- * $Id: FileConfigurationMonitor.java,v 1.5 2007/03/14 13:21:17 vtschopp Exp $
+ * $Id: FileConfigurationMonitor.java,v 1.6 2007/07/24 14:45:36 vtschopp Exp $
  * 
  * Created on Aug 25, 2006 by Valery Tschopp <tschopp@switch.ch>
  *
@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
  * FileConfigurationListener.
  * 
  * @author Valery Tschopp &lt;tschopp@switch.ch&gt;
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class FileConfigurationMonitor extends Thread {
 
@@ -125,7 +125,8 @@ public class FileConfigurationMonitor extends Thread {
      */
     public void run() {
         running_ = true;
-        LOG.info("Monitor (" + monitoringInterval_ + " ms) for file: " + file_.getAbsolutePath()
+        String absFilename= file_.getAbsolutePath();
+        LOG.info("Monitor (" + monitoringInterval_ + " ms) for file: " + absFilename
                 + " started" );
         // start the monitoring thread for the file
         while (running_) {
@@ -139,14 +140,14 @@ public class FileConfigurationMonitor extends Thread {
                 if (currentLastModified > lastModified_) {
                     lastModified_ = currentLastModified;
                     // dipatch the event to listener
-                    LOG.info("File " + file_.getAbsolutePath() + " changed");
+                    LOG.info("File " + absFilename + " changed");
                     dispatchFileConfigurationEvent(FileConfigurationEvent.FILE_MODIFIED);
                 }
             } catch (InterruptedException e) {
                 running_ = false;
             }
         }
-        LOG.info("Monitor for file: " + file_.getAbsolutePath()
+        LOG.info("Monitor for file: " + absFilename
                 + " terminated.");
     }
 
