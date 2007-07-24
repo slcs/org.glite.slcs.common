@@ -1,5 +1,5 @@
 /*
- * $Id: FileConfigurationMonitor.java,v 1.6 2007/07/24 14:45:36 vtschopp Exp $
+ * $Id: FileConfigurationMonitor.java,v 1.7 2007/07/24 14:51:15 vtschopp Exp $
  * 
  * Created on Aug 25, 2006 by Valery Tschopp <tschopp@switch.ch>
  *
@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
  * FileConfigurationListener.
  * 
  * @author Valery Tschopp &lt;tschopp@switch.ch&gt;
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class FileConfigurationMonitor extends Thread {
 
@@ -147,8 +147,7 @@ public class FileConfigurationMonitor extends Thread {
                 running_ = false;
             }
         }
-        LOG.info("Monitor for file: " + absFilename
-                + " terminated.");
+        LOG.info("Monitor thread terminated.");
     }
 
     /**
