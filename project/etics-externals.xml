@@ -19,7 +19,7 @@
     ETICS externals dependencies definition
 
     Author: Valery Tschopp <tschopp@switch.ch>
-    Version: $Id: etics-externals.xml,v 1.4 2007/07/23 08:32:36 vtschopp Exp $
+    Version: $Id: etics-externals.xml,v 1.5 2007/07/26 10:31:26 vtschopp Exp $
 -->
 <project name="etics-externals">
 
@@ -129,7 +129,7 @@
         <include name="**/saaj.jar" />
     </define-ext-path>
 
-    <!-- bouncycastle jdk 1.5 -->
+    <!-- bouncycastle jdk 1.5 (default) -->
     <define-ext-dir external="ext.bouncycastle" />
     <define-ext-path external="ext.bouncycastle.bcprov" dir="${ext.bouncycastle.dir}">
         <include name="**/bcprov-jdk15-*.jar" />
@@ -141,6 +141,20 @@
         <include name="**/bcprov-jdk15-*.jar" />
         <include name="**/bcmail-jdk15-*.jar" />
     </define-ext-path>
+
+    <!-- bouncycastle jdk 1.4 -->
+    <define-ext-dir external="ext.bouncycastle-jdk1.4" />
+    <define-ext-path external="ext.bouncycastle-jdk1.4.bcprov" dir="${ext.bouncycastle-jdk1.4.dir}">
+        <include name="**/bcprov-jdk14-*.jar" />
+    </define-ext-path>
+    <define-ext-path external="ext.bouncycastle-jdk1.4.bcmail" dir="${ext.bouncycastle-jdk1.4.dir}">
+        <include name="**/bcmail-jdk14-*.jar" />
+    </define-ext-path>
+    <define-ext-path external="ext.bouncycastle-jdk1.4">
+        <include name="**/bcprov-jdk14-*.jar" />
+        <include name="**/bcmail-jdk14-*.jar" />
+    </define-ext-path>
+
 
     <!-- commons-cli -->
     <define-ext-dir external="ext.commons-cli" />
