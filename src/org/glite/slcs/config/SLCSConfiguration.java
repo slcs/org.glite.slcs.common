@@ -1,5 +1,5 @@
 /*
- * $Id: SLCSConfiguration.java,v 1.3 2007/02/26 09:17:48 vtschopp Exp $
+ * $Id: SLCSConfiguration.java,v 1.4 2007/08/21 07:59:05 vtschopp Exp $
  * 
  * Created on Aug 9, 2006 by tschopp
  *
@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.glite.slcs.SLCSConfigurationException;
 
+import org.apache.commons.configuration.AbstractConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.FileConfiguration;
@@ -25,11 +26,16 @@ import org.apache.commons.logging.LogFactory;
  * SLCSConfiguration is a wrapper class for a XML file based configuration.
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @see org.apache.commons.configuration.XMLConfiguration
  */
 public abstract class SLCSConfiguration {
 
+    static {
+        // replace list delimiter comma (,) by unused character (^)
+        AbstractConfiguration.setDelimiter('^');
+    }
+    
     /** Logging */
     private static Log LOG = LogFactory.getLog(SLCSConfiguration.class);
 
@@ -63,7 +69,7 @@ public abstract class SLCSConfiguration {
      */
     protected FileConfiguration loadConfiguration(String filename)
             throws SLCSConfigurationException {
-        FileConfiguration config = null;
+        XMLConfiguration config = null;
         try {
             LOG.info("XMLConfiguration file=" + filename);
             config = new XMLConfiguration(filename);
