@@ -1,5 +1,5 @@
 /*
- * $Id: CertificateExtensionFactory.java,v 1.2 2006/10/24 08:54:01 vtschopp Exp $
+ * $Id: CertificateExtensionFactory.java,v 1.3 2007/08/22 10:38:47 vtschopp Exp $
  * 
  * Created on Sep 12, 2006 by Valery Tschopp <tschopp@switch.ch>
  *
@@ -32,7 +32,7 @@ import org.bouncycastle.asn1.x509.X509Extensions;
  * X.509 certificate extensions factory
  *
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision
+ * @version $Revision: 1.3 $
  */
 public class CertificateExtensionFactory {
 
@@ -80,6 +80,14 @@ public class CertificateExtensionFactory {
      * <li>dns:HOSTNAME
      * </ul>
      * </ul>
+     * <p>
+     * Example:
+     * <pre>
+     * CertificateExtension keyUsageExtension = 
+     *       CertificateExtensionFactory.createCertificateExtension("KeyUsage", "DigitalSignature,KeyEncipherment");
+     * CertificateExtension subjectAltNameExtension = 
+     *       CertificateExtensionFactory.createCertificateExtension("SubjectAltName", "email:john.doe@example.com,dns:www.exmaple.com");
+     * </pre>
      * 
      * @param id
      *            The name or the OID of the extension.
