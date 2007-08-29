@@ -1,8 +1,7 @@
-SLCS common
------------
+SLCS common build and runtime dependencies
+------------------------------------------
+
 Module: org.glite.slcs.common
-ETICS: glite-slcs-common_R_1_1_1_1
-RPM: glite-slcs-common-1.1.1-1.noarch.rpm
 
 Build Dependencies:
 
@@ -31,4 +30,4 @@ Runtime Dependencies:
 - log4j v. 1.2.8
 
 --
-$Id: DEPENDENCIES,v 1.1 2007/08/03 11:34:18 vtschopp Exp $
+$Id: DEPENDENCIES,v 1.2 2007/08/29 15:45:17 vtschopp Exp $
