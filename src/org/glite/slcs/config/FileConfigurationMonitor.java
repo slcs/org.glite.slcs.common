@@ -1,5 +1,5 @@
 /*
- * $Id: FileConfigurationMonitor.java,v 1.7 2007/07/24 14:51:15 vtschopp Exp $
+ * $Id: FileConfigurationMonitor.java,v 1.8 2007/08/29 15:18:09 vtschopp Exp $
  * 
  * Created on Aug 25, 2006 by Valery Tschopp <tschopp@switch.ch>
  *
@@ -12,22 +12,23 @@ package org.glite.slcs.config;
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Vector;
 
 import org.apache.commons.configuration.FileConfiguration;
-import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * FileConfigurationMonitor monitors if a file have been modified, and if so
- * send a FileConfigurationEvent to all the registered
- * FileConfigurationListener.
+ * FileConfigurationMonitor checks if the monitored file have been modified, and
+ * if so sends a {@link FileConfigurationEvent} to all the registered
+ * {@link FileConfigurationListener}.
  * 
  * @author Valery Tschopp &lt;tschopp@switch.ch&gt;
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
-public class FileConfigurationMonitor extends Thread {
+public class FileConfigurationMonitor extends Timer {
 
     /** Default sleep time between 2 check (300000 millis = 300 sec = 5 min) */
     public static long DEFAULT_MONITORING_INTERVAL = 300000;
@@ -46,9 +47,6 @@ public class FileConfigurationMonitor extends Thread {
 
     /** pause between to check (millis) */
     private long monitoringInterval_ = DEFAULT_MONITORING_INTERVAL;
-
-    /** Monitoring thread stopper */
-    private volatile boolean running_ = false;
 
     /**
      * Creates a FileConfigurationMonitor for the given FileConfiguration.
@@ -81,7 +79,8 @@ public class FileConfigurationMonitor extends Thread {
         }
 
         // create the FileConfigurationMontitor
-        FileConfigurationMonitor fileConfigurationMonitor = new FileConfigurationMonitor(fileConfiguration, interval);
+        FileConfigurationMonitor fileConfigurationMonitor = new FileConfigurationMonitor(
+                fileConfiguration, interval);
         fileConfigurationMonitor.addFileConfigurationListener(listener);
         return fileConfigurationMonitor;
     }
@@ -108,11 +107,8 @@ public class FileConfigurationMonitor extends Thread {
      */
     public FileConfigurationMonitor(FileConfiguration fileConfiguration,
             long monitoringInterval) {
-        super("FileConfigurationMonitor(" + fileConfiguration.getFileName()
-                + ")");
-        setDaemon(true);
-        // set reloading strategy
-        fileConfiguration.setReloadingStrategy(new FileChangedReloadingStrategy());
+        // daemonize
+        super(true);
 
         this.listeners_ = new Vector();
         this.file_ = fileConfiguration.getFile();
@@ -121,41 +117,48 @@ public class FileConfigurationMonitor extends Thread {
     }
 
     /**
-     * Starts to monitor the file for modification.
+     * FileConfigurationMonitorTask scheduled by the FileConfigurationMonitor to
+     * checks last modification timestamp of the monitored file and dispatch
+     * event to the listeners.
      */
-    public void run() {
-        running_ = true;
-        String absFilename= file_.getAbsolutePath();
-        LOG.info("Monitor (" + monitoringInterval_ + " ms) for file: " + absFilename
-                + " started" );
-        // start the monitoring thread for the file
-        while (running_) {
-            try {
-                Thread.sleep(monitoringInterval_);
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("checking last modified for: "
-                            + file_.getAbsolutePath());
-                }
-                long currentLastModified = file_.lastModified();
-                if (currentLastModified > lastModified_) {
-                    lastModified_ = currentLastModified;
-                    // dipatch the event to listener
-                    LOG.info("File " + absFilename + " changed");
-                    dispatchFileConfigurationEvent(FileConfigurationEvent.FILE_MODIFIED);
-                }
-            } catch (InterruptedException e) {
-                running_ = false;
+    private class FileConfigurationMonitorTask extends TimerTask {
+        /**
+         * Checks the file for modification and send event to listeners.
+         */
+        public void run() {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("checking last modified for: "
+                        + file_.getAbsolutePath());
+            }
+            long currentLastModified = file_.lastModified();
+            if (currentLastModified > lastModified_) {
+                lastModified_ = currentLastModified;
+                // dipatch the event to listener
+                LOG.info("File " + file_.getAbsolutePath() + " changed");
+                dispatchFileConfigurationEvent(FileConfigurationEvent.FILE_MODIFIED);
             }
         }
-        LOG.info("Monitor thread terminated.");
+    }
+
+    /**
+     * Starts the FileConfigurationMonitorTask to monitor the file.
+     */
+    public void start() {
+        LOG.info("schedule the FileConfigurationMonitorTask ("
+                + monitoringInterval_ + " ms) for file: "
+                + file_.getAbsolutePath());
+        scheduleAtFixedRate(new FileConfigurationMonitorTask(), 0,
+                monitoringInterval_);
     }
 
     /**
      * Stops to monitor the file.
      */
     public void shutdown() {
-        running_ = false;
-        interrupt();
+        LOG.info("cancel the FileConfigurationMonitorTask");
+        this.cancel();
+        // empty the listeners list
+        this.listeners_.clear();
     }
 
     /**
@@ -195,7 +198,8 @@ public class FileConfigurationMonitor extends Thread {
             LOG.debug("eventType=" + eventType);
         }
         if (!listeners_.isEmpty()) {
-            FileConfigurationEvent event = new FileConfigurationEvent(this, eventType);
+            FileConfigurationEvent event = new FileConfigurationEvent(this,
+                    eventType);
             Iterator listeners = listeners_.iterator();
             while (listeners.hasNext()) {
                 FileConfigurationListener listener = (FileConfigurationListener) listeners.next();
