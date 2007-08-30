@@ -19,7 +19,7 @@
     ETICS build for org.glite.slcs.common
 
     Author: Valery Tschopp <tschopp@switch.ch>
-    Version: $Id: build.xml,v 1.14 2007/07/26 14:04:12 vtschopp Exp $
+    Version: $Id: build.xml,v 1.15 2007/08/30 11:05:18 vtschopp Exp $
 -->
 <project name="org.glite.slcs.common" default="stage" basedir=".">
 
@@ -116,7 +116,10 @@
     <!-- javadoc -->
     <target name="javadoc">
         <echo message="javadoc..." />
-        <javadoc packagenames="org.glite.slcs.*" sourcepath="${src.dir}" destdir="${javadoc.dir}" />
+        <javadoc packagenames="org.glite.slcs.*" 
+			sourcepath="${src.dir}" 
+			destdir="${javadoc.dir}" 
+	   		classpathref="compile.path" />
     </target>
 
 
