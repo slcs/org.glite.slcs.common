@@ -1,5 +1,5 @@
 /*
- * $Id: FileConfigurationMonitor.java,v 1.8 2007/08/29 15:18:09 vtschopp Exp $
+ * $Id: FileConfigurationMonitor.java,v 1.9 2007/09/14 12:04:37 vtschopp Exp $
  * 
  * Created on Aug 25, 2006 by Valery Tschopp <tschopp@switch.ch>
  *
@@ -16,7 +16,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
-import org.apache.commons.configuration.FileConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -26,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
  * {@link FileConfigurationListener}.
  * 
  * @author Valery Tschopp &lt;tschopp@switch.ch&gt;
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class FileConfigurationMonitor extends Timer {
 
@@ -51,8 +50,8 @@ public class FileConfigurationMonitor extends Timer {
     /**
      * Creates a FileConfigurationMonitor for the given FileConfiguration.
      * 
-     * @param fileConfiguration
-     *            The FileConfiguration associated with the file to monitor.
+     * @param file
+     *            The file associated with the file to monitor.
      * @param monitoringInterval
      *            The time (in seconds) between 2 checks.
      * @param listener
@@ -60,7 +59,7 @@ public class FileConfigurationMonitor extends Timer {
      * @return The new FileConfigurationMonitor object.
      */
     public static FileConfigurationMonitor createFileConfigurationMonitor(
-            FileConfiguration fileConfiguration, String monitoringInterval,
+            File file, String monitoringInterval,
             FileConfigurationListener listener) {
         // parse GroupsFileMonitoringInterval parameter
         long interval = FileConfigurationMonitor.DEFAULT_MONITORING_INTERVAL;
@@ -74,13 +73,13 @@ public class FileConfigurationMonitor extends Timer {
         }
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug("file: " + fileConfiguration.getFileName()
-                    + " interval: " + interval + ")");
+            LOG.debug("file: " + file.getName() + " interval: " + interval
+                    + ")");
         }
 
         // create the FileConfigurationMontitor
         FileConfigurationMonitor fileConfigurationMonitor = new FileConfigurationMonitor(
-                fileConfiguration, interval);
+                file, interval);
         fileConfigurationMonitor.addFileConfigurationListener(listener);
         return fileConfigurationMonitor;
     }
@@ -89,29 +88,28 @@ public class FileConfigurationMonitor extends Timer {
      * Constr. Monitor the file associated with the given FileConfiguration and
      * check for change every DEFAULT_MONITORING_INTERVAL (5 min).
      * 
-     * @param fileConfiguration
-     *            The FileConfiguration file to monitor
+     * @param file
+     *            The file to monitor
      */
-    public FileConfigurationMonitor(FileConfiguration fileConfiguration) {
-        this(fileConfiguration, DEFAULT_MONITORING_INTERVAL);
+    public FileConfigurationMonitor(File file) {
+        this(file, DEFAULT_MONITORING_INTERVAL);
     }
 
     /**
      * Const. Monitor the file associated with the given FileConfiguration and
      * check for change every given <code>monitoringInterval</code>.
      * 
-     * @param fileConfiguration
-     *            The FileConfiguration file to monitor.
+     * @param file
+     *            The file to monitor.
      * @param monitoringInterval
      *            The pause between 2 check in millis.
      */
-    public FileConfigurationMonitor(FileConfiguration fileConfiguration,
-            long monitoringInterval) {
+    public FileConfigurationMonitor(File file, long monitoringInterval) {
         // daemonize
         super(true);
 
         this.listeners_ = new Vector();
-        this.file_ = fileConfiguration.getFile();
+        this.file_ = file;
         this.lastModified_ = file_.lastModified();
         this.monitoringInterval_ = monitoringInterval;
     }
