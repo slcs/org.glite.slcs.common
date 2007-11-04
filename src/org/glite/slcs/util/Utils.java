@@ -1,5 +1,5 @@
 /*
- * $Id: Utils.java,v 1.2 2006/10/24 08:55:52 vtschopp Exp $
+ * $Id: Utils.java,v 1.3 2007/11/04 18:34:36 vtschopp Exp $
  * 
  * Created on May 30, 2006 by tschopp
  *
@@ -19,6 +19,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 
+import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -26,7 +27,7 @@ import org.apache.commons.logging.LogFactory;
  * Utils some utility functions
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class Utils {
 
@@ -301,15 +302,24 @@ public class Utils {
                 LOG.warn("Failed to create new empty file: " + filename, e);
             }
         }
-        Runtime runtime= Runtime.getRuntime();
-        String[] cmd= new String[] { "chmod", String.valueOf(mode), filename };
-        try {
-            Process process= runtime.exec(cmd);
-            return (process.waitFor() == 0) ? true : false;
-        } catch (Exception e) {
-            LOG.warn("Command 'chmod " + mode + " " + filename + "' failed", e);
-            return false;
+        // only on Unix
+        if (!SystemUtils.IS_OS_WINDOWS) {
+            Runtime runtime= Runtime.getRuntime();
+            String[] cmd= new String[] { "chmod", String.valueOf(mode), filename };
+            try {
+                Process process= runtime.exec(cmd);
+                return (process.waitFor() == 0) ? true : false;
+            } catch (Exception e) {
+                LOG.warn("Command 'chmod " + mode + " " + filename + "' failed", e);
+                return false;
+            }
         }
+        // on Windows always return true
+        else {
+            LOG.info("Can not set file permissions " + mode + " on Windows");
+            return true;
+        }
+        
     }
 
     /**
