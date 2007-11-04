@@ -1,5 +1,5 @@
 /*
- * $Id: Utils.java,v 1.3 2007/11/04 18:34:36 vtschopp Exp $
+ * $Id: Utils.java,v 1.4 2007/11/04 18:38:12 vtschopp Exp $
  * 
  * Created on May 30, 2006 by tschopp
  *
@@ -27,7 +27,7 @@ import org.apache.commons.logging.LogFactory;
  * Utils some utility functions
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class Utils {
 
@@ -316,7 +316,7 @@ public class Utils {
         }
         // on Windows always return true
         else {
-            LOG.info("Can not set file permissions " + mode + " on Windows");
+            LOG.info("Windows: Not possible to set file permissions " + mode + " on " + filename );
             return true;
         }
         
