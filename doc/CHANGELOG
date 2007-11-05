@@ -1,5 +1,6 @@
 Version 1.3.0
 -------------
+* Utils.setFilePermissions doesn't show error for Windows.
 * FileConfigurationMonitor uses File obj as argument and not FileConfiguration anymore.
 
 Version 1.2.0
@@ -15,4 +16,4 @@ Version 1.0.0
 -------------
 * initial version
 --
-$Id: CHANGELOG,v 1.4 2007/09/14 12:06:29 vtschopp Exp $
+$Id: CHANGELOG,v 1.5 2007/11/05 08:25:58 vtschopp Exp $
