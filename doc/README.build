@@ -73,7 +73,6 @@ cd ~/slcs-workspace
 
 export CVSROOT=:pserver:anonymous@glite.cvs.cern.ch:/cvs/glite
 
-cvs co org.glite.slcs
 cvs co org.glite.slcs.common
 cvs co org.glite.slcs.ui
 cvs co org.glite.slcs.server
@@ -81,9 +80,8 @@ cvs co org.glite.slcs.server
 
 3. Use ant to download the required dependencies in the repository directory:
 
-cd org.glite.slcs
-ant -f project/etics-externals.xml etics-externals.download
-
+cd org.glite.slcs.common
+ant repository
 
 4. Use ant to build the different components:
 
@@ -92,19 +90,11 @@ ant -f project/etics-externals.xml etics-externals.download
 cd org.glite.slcs.common
 ant 
 
-4.2 build org.glite.slcs.server (depends on org.glite.slcs.common):
-
-cd org.glite.slcs.server
-ant 
-
-4.3 build org.glite.slcs.ui (depends on org.glite.slcs.common):
-
-cd org.glite.slcs.ui
-ant 
+After this the slcs-common.jar will be staged in the ../stage/share/java directory
 
 
 5. (Optional) Open Eclipse and import the directories org.glite.slcs.common, org.glite.slcs.ui and org.glite.slcs.server as existing project. The repository must be also imported as project and all jar files contained in the sub-directories must be exported as libraries.
 
 
 --
-$Id: README.build,v 1.1 2008/02/11 08:52:30 vtschopp Exp $
+$Id: README.build,v 1.2 2008/04/21 12:32:10 vtschopp Exp $
