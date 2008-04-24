@@ -19,7 +19,7 @@
     ETICS externals dependencies definition
 
     Author: Valery Tschopp <tschopp@switch.ch>
-    Version: $Id: etics-externals.xml,v 1.7 2008/04/21 12:31:28 vtschopp Exp $
+    Version: $Id: etics-externals.xml,v 1.8 2008/04/24 09:00:54 vtschopp Exp $
 -->
 <project name="etics-externals">
 
@@ -141,20 +141,6 @@
         <include name="**/bcprov-*.jar" />
         <include name="**/bcmail-*.jar" />
     </define-ext-path>
-
-    <!-- bouncycastle jdk 1.4 -->
-    <define-ext-dir external="ext.bouncycastle-jdk1.4" />
-    <define-ext-path external="ext.bouncycastle-jdk1.4.bcprov" dir="${ext.bouncycastle-jdk1.4.dir}">
-        <include name="**/bcprov-jdk14-*.jar" />
-    </define-ext-path>
-    <define-ext-path external="ext.bouncycastle-jdk1.4.bcmail" dir="${ext.bouncycastle-jdk1.4.dir}">
-        <include name="**/bcmail-jdk14-*.jar" />
-    </define-ext-path>
-    <define-ext-path external="ext.bouncycastle-jdk1.4">
-        <include name="**/bcprov-jdk14-*.jar" />
-        <include name="**/bcmail-jdk14-*.jar" />
-    </define-ext-path>
-
 
     <!-- commons-cli -->
     <define-ext-dir external="ext.jakarta-commons-cli" />
