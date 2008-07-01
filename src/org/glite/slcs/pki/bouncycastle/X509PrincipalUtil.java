@@ -1,5 +1,5 @@
 /*
- * $Id: X509PrincipalUtil.java,v 1.1 2008/07/01 11:32:25 vtschopp Exp $
+ * $Id: X509PrincipalUtil.java,v 1.2 2008/07/01 12:28:01 vtschopp Exp $
  *
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://eu-egee.org/partners/ for details on the copyright holders.
@@ -38,16 +38,14 @@ import org.bouncycastle.util.Strings;
  * href="http://www.bouncycastle.org/jira/browse/BJA-119">http://www.bouncycastle.org/jira/browse/BJA-119</a>
  * <p>
  * Usage:
- * 
  * <pre>
  * X509PrincipalUtil util = new X509PrincipalUtil();
- * 
  * X509Principal p = util.createX509Principal(&quot;CN=Foo\\+Bar,O=SWITCH+O=MAMS,C=CH+C=AU&quot;);
  * </pre>
  * 
  * @author Valery Tschopp &lt;tschopp@switch.ch&gt;
  * @author Xuan Thang Nguyen &lt;xuan.nguyen@its.monash.edu.au&gt;
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class X509PrincipalUtil {
 
@@ -96,7 +94,7 @@ public class X509PrincipalUtil {
     }
 
     /**
-     * Reads the LdapName {@link Rdn} component and fill the given vectors.
+     * Reads the LdapName {@link Rdn} component and fills the given vectors.
      * 
      * @param rdn
      *            The {@link Rdn} to read.
@@ -105,7 +103,7 @@ public class X509PrincipalUtil {
      * @param values
      *            The vector of value.
      * @param added
-     *            The vector of
+     *            The added status vector.
      * @throws NamingException
      *             if an error occurs.
      */
@@ -123,6 +121,21 @@ public class X509PrincipalUtil {
         } while (attrs.hasMoreElements());
     }
 
+    /**
+     * Reads the given {@link Attribute} and recurses into RDN attributes, fills
+     * the given vectors.
+     * 
+     * @param attr
+     *            The {@link Attribute} to read.
+     * @param oids
+     *            The vector of OID.
+     * @param values
+     *            The vector of value.
+     * @param added
+     *            The added status vector.
+     * @throws NamingException
+     *             if a naming error occurs.
+     */
     private void readAttr(Attribute attr, Vector<DERObjectIdentifier> oids,
             Vector<Object> values, Vector<Boolean> added)
             throws NamingException {
@@ -132,7 +145,6 @@ public class X509PrincipalUtil {
             if (attr.get(i) instanceof Attribute) {
                 Attribute rdnAttr = (Attribute) attr.get(i);
                 LOG.debug("Attribute RDN: " + rdnAttr);
-                // invert content
                 readAttr(rdnAttr, oids, values, added);
             }
             else { // Get back the OID from name
