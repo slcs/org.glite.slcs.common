@@ -1,5 +1,5 @@
 /*
- * $Id: Codec.java,v 1.4 2007/05/11 11:29:04 vtschopp Exp $
+ * $Id: Codec.java,v 1.5 2008/07/01 11:30:54 vtschopp Exp $
  *
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://eu-egee.org/partners/ for details on the copyright holders.
@@ -40,7 +40,7 @@ import org.bouncycastle.x509.extension.SubjectKeyIdentifierStructure;
  * Codec utility to read and write PEM object using the BouncyCastle functions.
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class Codec {
 
@@ -262,7 +262,7 @@ public class Codec {
      */
     static public X509Certificate[] readPEMEncodedCertificates(Reader reader)
             throws IOException {
-        Vector certificates = new Vector();
+        Vector<X509Certificate> certificates = new Vector<X509Certificate>();
         LOG.debug("read all certificates");
         PEMReader pr = new PEMReader(reader);
         boolean haveNext = true;
