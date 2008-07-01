@@ -1,3 +1,8 @@
+Version 1.5.0
+-------------
+* X509PrincipalUtil utility class to handle certificate subject DN with literal and RDN. BouncyCastle X509Name and X509Principal bug workaround implemented.
+* PKCS10 uses the X509PrincipalUtil utility class to validate and normalize the DN.
+
 Version 1.4.0
 -------------
 * Packaging with ETICS new jakarta-commons-* JPackage packages. Don't use old commons-* packages anymore.
@@ -21,4 +26,4 @@ Version 1.0.0
 -------------
 * initial version
 --
-$Id: CHANGELOG,v 1.6 2008/04/21 12:32:10 vtschopp Exp $
+$Id: CHANGELOG,v 1.7 2008/07/01 13:12:39 vtschopp Exp $
