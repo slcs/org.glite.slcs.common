@@ -1,1 +1,7 @@
-Valery Tschopp <tschopp@switch.ch>
+Implementation of org.glite.slcs.common:
+
+- Valery Tschopp <tschopp@switch.ch>
+
+Additional contributions:
+
+- Xuan Thang Nguyen <xuan.nguyen@its.monash.edu.au> for the X509PrincipalUtil bug fix.
