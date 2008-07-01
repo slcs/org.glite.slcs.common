@@ -80,12 +80,19 @@ public class X509PrincipalUtilTest extends TestCase {
     }
 
     public void testFailure() {
-        String subject = "=";
+        String subject = "DC=CH,hello";
         try {
             X509Principal p = x509_.createX509Principal(subject);
-            fail("This should failed");
+            fail("This should failed: " + p.getName());
         } catch (GeneralSecurityException e) {
             System.out.println("Expected exception: " + e);
         }
+    }
+    
+    public void testSWITCHDN() throws GeneralSecurityException {
+        String subject= "DC=ch+DC=switch+DC=slcs,O=Switch - Teleinformatikdienste fuer Lehre und Forschung,CN=Valery Tschopp\\+9FEE5EE3";
+        X509Principal p = x509_.createX509Principal(subject);
+        System.out.println(p.getName());
+        System.out.println(ASN1Dump.dumpAsString(p));
     }
 }
