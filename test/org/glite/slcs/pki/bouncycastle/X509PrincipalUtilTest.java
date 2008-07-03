@@ -12,18 +12,18 @@ public class X509PrincipalUtilTest extends TestCase {
     private X509PrincipalUtil x509_ = new X509PrincipalUtil();
 
     public void testRDN() throws GeneralSecurityException {
-        String expectedDN = "CN=Bar+CN=Foo,O=SWITCH,C=CH";
-        X509Principal expected = new X509Principal(expectedDN);
+        String dn = "CN=C+CN=A+CN=B,O=SWITCH,C=CH";
+        System.out.println("DN: " + dn);
+        X509Principal expected = new X509Principal(dn);
         System.out.println("BC X509Principal: " + expected);
         System.out.println("BC ASN1: " + ASN1Dump.dumpAsString(expected));
 
-        String dn = "CN=Foo+CN=Bar,O=SWITCH,C=CH";
         X509Principal p = x509_.createX509Principal(dn);
         System.out.println("my X509Principal: " + p);
         System.out.println("my ASN1: " + ASN1Dump.dumpAsString(p));
 
         assertEquals(expected, p);
-        assertEquals(expected.getName(), p.getName());
+        assertEquals(expected.getDERObject(), p.getDERObject());
     }
 
     public void testEscapedPlus() throws GeneralSecurityException {
