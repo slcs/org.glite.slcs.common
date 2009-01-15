@@ -19,7 +19,7 @@
     ETICS build for org.glite.slcs.common
 
     Author: Valery Tschopp <tschopp@switch.ch>
-    Version: $Id: build.xml,v 1.16 2008/04/21 12:33:21 vtschopp Exp $
+    Version: $Id: build.xml,v 1.17 2009/01/15 15:59:47 vtschopp Exp $
 -->
 <project name="org.glite.slcs.common" default="stage" basedir=".">
 
@@ -180,6 +180,7 @@
     <!-- download eternals dependencies in local repository -->
     <target name="repository" depends="init">
        <download-ext external="ext.bouncycastle" />
+       <download-ext external="ext.bouncycastle-1.41" />
        <download-ext external="ext.jakarta-commons-codec" />
        <download-ext external="ext.jakarta-commons-collections" />
        <download-ext external="ext.jakarta-commons-configuration" />
