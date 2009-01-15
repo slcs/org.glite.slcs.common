@@ -1,3 +1,7 @@
+Version 1.5.1
+-------------
+* RFC2253 compliant escaping method Utils.escapeAttributeValue(string) added.
+
 Version 1.5.0
 -------------
 * X509PrincipalUtil utility class to handle certificate subject DN with literal and RDN. BouncyCastle X509Name and X509Principal bug workaround implemented.
@@ -26,4 +30,4 @@ Version 1.0.0
 -------------
 * initial version
 --
-$Id: CHANGELOG,v 1.7 2008/07/01 13:12:39 vtschopp Exp $
+$Id: CHANGELOG,v 1.8 2009/01/15 15:15:42 vtschopp Exp $
