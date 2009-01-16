@@ -19,7 +19,7 @@
     ETICS build for org.glite.slcs.common
 
     Author: Valery Tschopp <tschopp@switch.ch>
-    Version: $Id: build.xml,v 1.17 2009/01/15 15:59:47 vtschopp Exp $
+    Version: $Id: build.xml,v 1.18 2009/01/16 09:30:55 vtschopp Exp $
 -->
 <project name="org.glite.slcs.common" default="stage" basedir=".">
 
@@ -110,7 +110,8 @@
     <!-- jar -->
     <target name="jar" depends="compile">
         <!-- jar all classes -->
-        <jar jarfile="${build.dir}/${package.name}.jar" basedir="${classes.dir}" />
+        <jar jarfile="${build.dir}/${package.jarname}" 
+             basedir="${classes.dir}" />
     </target>
 
     <!-- javadoc -->
@@ -137,7 +138,7 @@
         <mkdir dir="${install.javadoc.dir}" />
 
         <!-- copy jar file -->
-        <copy file="${build.dir}/${package.name}.jar" todir="${install.lib.dir}" />
+        <copy file="${build.dir}/${package.jarname}" todir="${install.lib.dir}" />
 
         <!-- doc -->
         <copy todir="${install.doc.dir}">
