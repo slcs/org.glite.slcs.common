@@ -1,5 +1,6 @@
 Version 1.5.1
 -------------
+* glite-slcs-common package jar named with version number. example: glite-slcs-common-1.5.1.jar
 * RFC2253 compliant escaping method Utils.escapeAttributeValue(string) added.
 
 Version 1.5.0
@@ -30,4 +31,4 @@ Version 1.0.0
 -------------
 * initial version
 --
-$Id: CHANGELOG,v 1.8 2009/01/15 15:15:42 vtschopp Exp $
+$Id: CHANGELOG,v 1.9 2009/01/16 09:31:44 vtschopp Exp $
