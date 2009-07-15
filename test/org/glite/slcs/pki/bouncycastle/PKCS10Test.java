@@ -1,5 +1,5 @@
 /*
- * $Id: PKCS10Test.java,v 1.2 2008/07/01 11:34:04 vtschopp Exp $
+ * $Id: PKCS10Test.java,v 1.3 2009/07/15 13:53:40 vtschopp Exp $
  * 
  * Created on Aug 22, 2006 by Valery Tschopp <tschopp@switch.ch>
  *
@@ -86,6 +86,7 @@ public class PKCS10Test extends TestCase {
 
     }
 
+    @SuppressWarnings("unchecked")
     public X509Principal createX509Principal(String dirName) {
         Vector oids = new Vector();
         Vector values = new Vector();
@@ -124,6 +125,7 @@ public class PKCS10Test extends TestCase {
 
     }
 
+    @SuppressWarnings("unchecked")
     private void parseValue(LdapName dn, Vector oids, Vector values) {
         List<Rdn> rdns = dn.getRdns();
         for (Rdn rdn : rdns) {
@@ -168,6 +170,7 @@ public class PKCS10Test extends TestCase {
 
     }
 
+    @SuppressWarnings("unchecked")
     public void testGetX509Extensions() throws GeneralSecurityException,
             IOException {
         X509Extensions x509Extensions = createX509Extensions();

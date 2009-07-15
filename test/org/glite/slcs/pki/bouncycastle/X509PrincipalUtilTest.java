@@ -2,6 +2,8 @@ package org.glite.slcs.pki.bouncycastle;
 
 import java.security.GeneralSecurityException;
 
+import javax.security.auth.x500.X500Principal;
+
 import junit.framework.TestCase;
 
 import org.bouncycastle.asn1.util.ASN1Dump;
@@ -27,13 +29,13 @@ public class X509PrincipalUtilTest extends TestCase {
     }
 
     public void testEscapedPlus() throws GeneralSecurityException {
-        String dn = "CN=Foo\\+Bar,O=SWITCH,C=CH";
+        String expected = "CN=Foo\\+Bar,O=SWITCH,C=CH";
 
-        X509Principal p = x509PrincipalUtil_.createX509Principal(dn);
+        X509Principal p = x509PrincipalUtil_.createX509Principal(expected);
         System.out.println("my X509Principal: " + p);
         System.out.println("my ASN1: " + ASN1Dump.dumpAsString(p));
 
-        assertEquals(dn, p.getName());
+        assertEquals(expected, p.getName());
     }
 
     public void testMixed() throws GeneralSecurityException {
@@ -65,20 +67,66 @@ public class X509PrincipalUtilTest extends TestCase {
     }
 
     public void testEscapeBackslash() throws GeneralSecurityException {
-        String subject = "DC=demo,DC=mams,DC=slcs,O=MAMS,CN=Dummy\\+\\;aghf=";
+        String subject = "DC=demo,DC=mams,DC=slcs,O=MAMS,CN=Dummy\\+\\;\\=aghf";
+        System.out.println("Subject: " + subject);
         // String expected =
         // "DC=demo,DC=mams,DC=slcs,O=MAMS,CN=Dummy\\+\\;aghf=";
         X509Principal p = x509PrincipalUtil_.createX509Principal(subject);
-        assertEquals(subject, p.getName());
+        System.out.println("X509Principal: " + p.getName());
+        System.out.println(ASN1Dump.dumpAsString(p));
+        assertEquals(subject, new X500Principal(p.getName()).getName());
     }
 
     public void testEscapeDoubleQuoute() throws GeneralSecurityException {
         String subject = "DC=demo,DC=mams,DC=slcs,O=MAMS,CN=\"Dummy+;aghf=\"";
-        String expected = "DC=demo,DC=mams,DC=slcs,O=MAMS,CN=Dummy\\+\\;aghf=";
+        System.out.println("Subject: " + subject);
+        String expected = "DC=demo,DC=mams,DC=slcs,O=MAMS,CN=Dummy\\+\\;aghf\\=";
+        System.out.println("Expected: " + expected);
         X509Principal p = x509PrincipalUtil_.createX509Principal(subject);
-        assertEquals(expected, p.getName());
+        System.out.println("X509Principal: " + p.getName());     
+        System.out.println(ASN1Dump.dumpAsString(p));
+
+        // convert to X500
+        X500Principal x500= new X500Principal(p.getName());
+        System.out.println("X500Principal(default): " + x500.getName());     
+        System.out.println("X500Principal(CANONICAL): " + x500.getName(X500Principal.CANONICAL));     
+        System.out.println("X500Principal(RFC1779): " + x500.getName(X500Principal.RFC1779));     
+        System.out.println("X500Principal(RFC2253): " + x500.getName(X500Principal.RFC2253));     
+        
+        assertEquals(expected, x500.getName());
     }
 
+    public void testX500PrincipalVsX509PrincipalQuoted() {
+        String subject = "DC=test+CN=\"Test=Equal\"";
+        System.out.println("Subject: " + subject);
+        X500Principal x500= new X500Principal(subject);
+        System.out.println("X500Principal: " + x500.getName());
+        X509Principal x509= new X509Principal(subject);
+        System.out.println("X509Principal: " + x509.getName());
+        assertEquals(x500.getName(), x509.getName());
+    }
+
+    public void testX500PrincipalVsX509PrincipalEscaped() {
+        String subject = "DC=test,CN=Test\\=Equal";
+        System.out.println("Subject: " + subject);
+        X500Principal x500= new X500Principal(subject);
+        System.out.println("X500Principal: " + x500.getName());
+        X509Principal x509= new X509Principal(subject);
+        System.out.println("X509Principal: " + x509.getName());
+        assertEquals(x500.getName(), x509.getName());
+    }
+
+    public void testX509PrincipalToX500Principal() {
+        String subject = "DC=test,CN=Test\\=Equal";
+        System.out.println("Subject: " + subject);
+        X509Principal x509= new X509Principal(subject);
+        System.out.println("X509Principal: " + x509.getName());
+        X500Principal x500= new X500Principal(x509.getName());
+        System.out.println("X500Principal(X509Principal): " + x500.getName());
+        assertEquals(x500.getName(), x509.getName());
+    }
+
+    
     public void testFailure() {
         String subject = "DC=CH,hello";
         try {
@@ -94,5 +142,10 @@ public class X509PrincipalUtilTest extends TestCase {
         X509Principal p = x509PrincipalUtil_.createX509Principal(subject);
         System.out.println(p.getName());
         System.out.println(ASN1Dump.dumpAsString(p));
+    }
+
+    protected void setUp() throws Exception {
+        super.setUp();
+        
     }
 }
