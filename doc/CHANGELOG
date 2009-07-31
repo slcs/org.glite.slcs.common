@@ -1,3 +1,10 @@
+Version 1.6.1
+-------------
+* downloadConfiguration(URL url) method added to create a XML config from an external URL.
+* Version set at compile time.
+* glite-slcs-common package jar named *WITHOUT* version number: glite-slcs-common.jar
+ 
+
 Version 1.5.1
 -------------
 * glite-slcs-common package jar named with version number. example: glite-slcs-common-1.5.1.jar
@@ -31,4 +38,4 @@ Version 1.0.0
 -------------
 * initial version
 --
-$Id: CHANGELOG,v 1.9 2009/01/16 09:31:44 vtschopp Exp $
+$Id: CHANGELOG,v 1.10 2009/07/31 12:50:51 vtschopp Exp $
