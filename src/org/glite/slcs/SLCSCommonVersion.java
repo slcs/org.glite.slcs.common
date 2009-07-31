@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * $Id: SLCSCommonVersion.java,v 1.3 2009/07/31 12:40:12 vtschopp Exp $
+ * $Id: SLCSCommonVersion.java,v 1.4 2009/07/31 12:45:51 vtschopp Exp $
  */
 package org.glite.slcs;
 
@@ -33,10 +33,14 @@ public class SLCSCommonVersion {
     private SLCSCommonVersion() {}
 
     /**
-     * @return The version number in format MAJOR.MINOR.REVISION
+     * @return The version number in format MAJOR.MINOR.REVISION-BUILD
      */
     static public String getVersion() {
-        return VERSION;
+        StringBuffer sb= new StringBuffer();
+        sb.append(VERSION);
+        sb.append('-');
+        sb.append(BUILD);
+        return sb.toString();
     }
 
 }
