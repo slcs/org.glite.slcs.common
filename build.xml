@@ -19,7 +19,7 @@
     ETICS build for org.glite.slcs.common
 
     Author: Valery Tschopp <tschopp@switch.ch>
-    Version: $Id: build.xml,v 1.18 2009/01/16 09:30:55 vtschopp Exp $
+    Version: $Id: build.xml,v 1.19 2009/07/31 12:52:39 vtschopp Exp $
 -->
 <project name="org.glite.slcs.common" default="stage" basedir=".">
 
@@ -46,6 +46,9 @@
     <property name="test.classes.dir" location="${build.dir}/test/classes" />
 
     <property name="install.dir" location="${build.dir}/glite" />
+
+    <!-- version java file: relative path !!! -->
+    <property name="version.java.file" value="src/org/glite/slcs/SLCSCommonVersion.java"/>
 
     <!-- init -->
     <target name="init" depends="">
@@ -75,8 +78,18 @@
         <mkdir dir="${test.classes.dir}" />
     </target>
 
+    <!-- update version number in java source -->
+    <target name="version" depends="prepare">
+        <echo message="set version ${source.version}-${package.release} in ${version.java.file}"/>
+        <cvs command="update -C ${version.java.file}"/>
+        <replace file="${version.java.file}" summary="true" propertyFile="build.properties">
+            <replacefilter token="@version.number@" property="source.version"/>
+            <replacefilter token="@version.build@" property="package.release"/>
+        </replace>
+    </target>
+
     <!-- compile -->
-    <target name="compile" depends="prepare">
+    <target name="compile" depends="version">
         <echo message="compile..." />
         <!-- Compile the java code from ${src} into ${build} -->
         <javac srcdir="${src.dir}" debug="true" destdir="${classes.dir}">
