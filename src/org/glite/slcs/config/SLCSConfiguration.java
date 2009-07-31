@@ -1,5 +1,5 @@
 /*
- * $Id: SLCSConfiguration.java,v 1.4 2007/08/21 07:59:05 vtschopp Exp $
+ * $Id: SLCSConfiguration.java,v 1.5 2009/07/31 12:53:40 vtschopp Exp $
  * 
  * Created on Aug 9, 2006 by tschopp
  *
@@ -10,6 +10,7 @@
 package org.glite.slcs.config;
 
 import java.io.File;
+import java.net.URL;
 import java.util.List;
 
 import org.glite.slcs.SLCSConfigurationException;
@@ -26,7 +27,7 @@ import org.apache.commons.logging.LogFactory;
  * SLCSConfiguration is a wrapper class for a XML file based configuration.
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @see org.apache.commons.configuration.XMLConfiguration
  */
 public abstract class SLCSConfiguration {
@@ -73,17 +74,40 @@ public abstract class SLCSConfiguration {
         try {
             LOG.info("XMLConfiguration file=" + filename);
             config = new XMLConfiguration(filename);
+            LOG.debug("XMLConfiguration file=" + config.getFileName());
+        } catch (ConfigurationException e) {
+            LOG.error("Failed to create XMLConfiguration: " + filename, e);
+            throw new SLCSConfigurationException("Failed to create XMLConfiguration: "
+                    + filename, e);
+        }
+        return config;
+    }
+
+    /**
+     * Creates a XMLConfiguration loaded from the given url.
+     * 
+     * @param url
+     *            The URL of the file to load the XML configuration from.
+     * @return The new FileConfiguration object
+     * @throws SLCSConfigurationException
+     *             If a configuration error occurs while downloading and loading the XML file.
+     */
+    protected FileConfiguration downloadConfiguration(URL url)
+            throws SLCSConfigurationException {
+        XMLConfiguration config = null;
+        try {
+            LOG.info("XMLConfiguration url=" + url);
+            config = new XMLConfiguration(url);
             if (LOG.isDebugEnabled()) {
                 File configFile = config.getFile();
                 LOG.debug("XMLConfiguration file="
                         + configFile.getAbsolutePath());
             }
         } catch (ConfigurationException e) {
-            LOG.error("Failed to create XMLConfiguration: " + filename, e);
+            LOG.error("Failed to create XMLConfiguration from: " + url, e);
             throw new SLCSConfigurationException("Failed to create XMLConfiguration: "
-                    + filename, e);
+                    + url, e);
         }
-
         return config;
     }
 
