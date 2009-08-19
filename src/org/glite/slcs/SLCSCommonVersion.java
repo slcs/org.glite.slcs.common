@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * $Id: SLCSCommonVersion.java,v 1.4 2009/07/31 12:45:51 vtschopp Exp $
+ * $Id: SLCSCommonVersion.java,v 1.5 2009/08/19 14:57:32 vtschopp Exp $
  */
 package org.glite.slcs;
 
+import org.glite.slcs.common.Version;
+
 public class SLCSCommonVersion {
 
-    /** Version number */
-    static public final String VERSION= "@version.number@";
-    /** Version build */
-    static public final String BUILD= "@version.build@";
-    
-    /** Copyright */
+    /** 
+     * Copyright
+     * @deprecated use {@link Version#getCopyright()}
+     */
     static public final String COPYRIGHT= "Copyright (c) 2008-2009. Members of the EGEE Collaboration";
 
     /**
@@ -34,13 +34,10 @@ public class SLCSCommonVersion {
 
     /**
      * @return The version number in format MAJOR.MINOR.REVISION-BUILD
+     * @deprecated use {@link Version#getVersion()}
      */
     static public String getVersion() {
-        StringBuffer sb= new StringBuffer();
-        sb.append(VERSION);
-        sb.append('-');
-        sb.append(BUILD);
-        return sb.toString();
+        return Version.getVersion();
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: SLCSConfiguration.java,v 1.6 2009/07/31 14:48:36 vtschopp Exp $
+ * $Id: SLCSConfiguration.java,v 1.7 2009/08/19 14:57:32 vtschopp Exp $
  * 
  * Created on Aug 9, 2006 by tschopp
  *
@@ -9,11 +9,8 @@
  */
 package org.glite.slcs.config;
 
-import java.io.File;
 import java.net.URL;
 import java.util.List;
-
-import org.glite.slcs.SLCSConfigurationException;
 
 import org.apache.commons.configuration.AbstractConfiguration;
 import org.apache.commons.configuration.Configuration;
@@ -22,12 +19,13 @@ import org.apache.commons.configuration.FileConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.glite.slcs.SLCSConfigurationException;
 
 /**
  * SLCSConfiguration is a wrapper class for a XML file based configuration.
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * @see org.apache.commons.configuration.XMLConfiguration
  */
 public abstract class SLCSConfiguration {
