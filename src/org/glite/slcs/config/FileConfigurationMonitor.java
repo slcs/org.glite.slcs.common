@@ -1,5 +1,5 @@
 /*
- * $Id: FileConfigurationMonitor.java,v 1.9 2007/09/14 12:04:37 vtschopp Exp $
+ * $Id: FileConfigurationMonitor.java,v 1.10 2009/08/19 15:04:54 vtschopp Exp $
  * 
  * Created on Aug 25, 2006 by Valery Tschopp <tschopp@switch.ch>
  *
@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
  * {@link FileConfigurationListener}.
  * 
  * @author Valery Tschopp &lt;tschopp@switch.ch&gt;
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class FileConfigurationMonitor extends Timer {
 
@@ -36,7 +36,7 @@ public class FileConfigurationMonitor extends Timer {
     private static Log LOG = LogFactory.getLog(FileConfigurationMonitor.class);
 
     /** List of FileConfigurationListener */
-    private List listeners_ = null;
+    private List<FileConfigurationListener> listeners_ = null;
 
     /** the monitored File used by the FileConfiguration */
     private File file_ = null;
@@ -108,7 +108,7 @@ public class FileConfigurationMonitor extends Timer {
         // daemonize
         super(true);
 
-        this.listeners_ = new Vector();
+        this.listeners_ = new Vector<FileConfigurationListener>();
         this.file_ = file;
         this.lastModified_ = file_.lastModified();
         this.monitoringInterval_ = monitoringInterval;
@@ -198,7 +198,7 @@ public class FileConfigurationMonitor extends Timer {
         if (!listeners_.isEmpty()) {
             FileConfigurationEvent event = new FileConfigurationEvent(this,
                     eventType);
-            Iterator listeners = listeners_.iterator();
+            Iterator<FileConfigurationListener> listeners = listeners_.iterator();
             while (listeners.hasNext()) {
                 FileConfigurationListener listener = (FileConfigurationListener) listeners.next();
                 listener.fileConfigurationChanged(event);
