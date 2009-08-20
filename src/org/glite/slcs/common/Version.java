@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * $Id: Version.java,v 1.2 2009/08/20 08:52:52 vtschopp Exp $
+ * $Id: Version.java,v 1.3 2009/08/20 08:59:49 vtschopp Exp $
  */
 package org.glite.slcs.common;
 
@@ -27,6 +27,8 @@ public class Version {
     static final Package PKG= Version.class.getPackage();
 
     /**
+     * Returns the Copyright.
+     * 
      * @return the copyright string
      */
     static public String getCopyright() {
@@ -34,17 +36,24 @@ public class Version {
     }
     
     /**
-     * @return the implementation version from MANIFEST
+     * Returns the implementation version from the jar MANIFEST.
+     * 
+     * @return the implementation version
      */
     static public String getVersion() {
         return PKG.getImplementationVersion();   
     }
 
     /**
-     * @return the implementation title from MANIFEST
+     * Returns the implementation title from the jar MANIFEST.
+     * @return the implementation title
      */
     static public String getName() {
         return PKG.getImplementationTitle();   
     }
 
+    /**
+     * Constructor. Prevents instantiation.
+     */
+    private Version() {}
 }
