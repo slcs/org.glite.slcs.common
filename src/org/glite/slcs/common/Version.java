@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * $Id: Version.java,v 1.1 2009/08/19 14:51:45 vtschopp Exp $
+ * $Id: Version.java,v 1.2 2009/08/20 08:52:52 vtschopp Exp $
  */
 package org.glite.slcs.common;
 
 /**
  * Version class to retrieve version info from jar manifest.
- * @since 1.4.0
+ * @since 1.6.0
  */
 public class Version {
 
