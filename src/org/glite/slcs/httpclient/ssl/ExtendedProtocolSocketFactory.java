@@ -16,7 +16,7 @@
  * limitations under the License.
  *
  * Auhtor: Valery Tschopp <tschopp@switch.ch>
- * Version: $Id: ExtendedProtocolSocketFactory.java,v 1.5 2007/07/24 16:25:09 vtschopp Exp $
+ * Version: $Id: ExtendedProtocolSocketFactory.java,v 1.6 2009/09/15 12:32:09 vtschopp Exp $
  */
 package org.glite.slcs.httpclient.ssl;
 
@@ -47,6 +47,7 @@ import javax.net.ssl.X509TrustManager;
 import org.apache.commons.httpclient.ConnectTimeoutException;
 import org.apache.commons.httpclient.params.HttpConnectionParams;
 import org.apache.commons.httpclient.protocol.ProtocolSocketFactory;
+import org.apache.commons.httpclient.protocol.SecureProtocolSocketFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -96,9 +97,9 @@ import org.apache.commons.logging.LogFactory;
  * </p>
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
-public class ExtendedProtocolSocketFactory implements ProtocolSocketFactory {
+public class ExtendedProtocolSocketFactory implements SecureProtocolSocketFactory {
 
     private static String SSL_CONTEXT_PROTOCOL = "SSL";
 
