@@ -16,7 +16,7 @@
  * limitations under the License.
  *
  * Auhtor: Valery Tschopp <tschopp@switch.ch>
- * Version: $Id: ExtendedProtocolSocketFactory.java,v 1.6 2009/09/15 12:32:09 vtschopp Exp $
+ * Version: $Id: ExtendedProtocolSocketFactory.java,v 1.7 2010/02/09 09:08:04 vtschopp Exp $
  */
 package org.glite.slcs.httpclient.ssl;
 
@@ -97,7 +97,7 @@ import org.apache.commons.logging.LogFactory;
  * </p>
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class ExtendedProtocolSocketFactory implements SecureProtocolSocketFactory {
 
@@ -382,7 +382,7 @@ public class ExtendedProtocolSocketFactory implements SecureProtocolSocketFactor
      * 
      * @return The initialized {@link SSLContext}
      */
-    private SSLContext getSSLContext() {
+    public SSLContext getSSLContext() {
         return this.sslContext_;
     }
 

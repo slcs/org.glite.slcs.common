@@ -1,3 +1,7 @@
+Version 1.6.2
+-------------
+* ExtendedProtocolSocketFactory.getSSLContext() method is now public.
+
 Version 1.6.1
 -------------
 * bug fix: handling of secure cookies (HTTPS).
@@ -42,4 +46,4 @@ Version 1.0.0
 -------------
 * initial version
 --
-$Id: CHANGELOG,v 1.12 2009/09/15 12:36:27 vtschopp Exp $
+$Id: CHANGELOG,v 1.13 2010/02/09 09:08:04 vtschopp Exp $
