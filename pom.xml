@@ -1,0 +1,17 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>ch.switch</groupId>
+    <artifactId>deployer</artifactId>
+    <version>1.0.0</version>
+
+  <build>
+    <extensions>
+      <extension>
+        <!-- support for scpexe: -->
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh-external</artifactId>
+      </extension>
+    </extensions>
+  </build>
+</project>
+
