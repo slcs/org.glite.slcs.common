@@ -1,6 +1,4 @@
 /*
- * $Id: X509PrincipalUtil.java,v 1.2 2008/07/01 12:28:01 vtschopp Exp $
- *
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://eu-egee.org/partners/ for details on the copyright holders.
  * For license conditions see the license file or http://eu-egee.org/license.html
@@ -47,6 +45,7 @@ import org.bouncycastle.util.Strings;
  * @author Xuan Thang Nguyen &lt;xuan.nguyen@its.monash.edu.au&gt;
  * @version $Revision: 1.2 $
  */
+@SuppressWarnings("deprecation")
 public class X509PrincipalUtil {
 
     /** Logger */

@@ -1,8 +1,4 @@
 /*
- * $Id: ExtendedX509TrustManager.java,v 1.6 2007/03/01 13:46:29 vtschopp Exp $
- * 
- * Created on Aug 8, 2006 by tschopp
- *
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://eu-egee.org/partners/ for details on the copyright holders.
  * For license conditions see the license file or http://eu-egee.org/license.html
@@ -21,7 +17,6 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.net.ssl.X509TrustManager;
@@ -33,8 +28,7 @@ import org.apache.commons.logging.LogFactory;
  * ExtendedTrustX509TrustManager can be used to extend the default JSSE
  * {@link X509TrustManager} with additional trusted CAs stored in a trust store.
  * 
- * @author Valery Tschoppp <tschopp@switch.ch>
- * @version $Revision: 1.6 $
+ * @author Valery Tschoppp <valery.tschopp@switch.ch>
  */
 public class ExtendedX509TrustManager implements X509TrustManager {
 
@@ -44,7 +38,7 @@ public class ExtendedX509TrustManager implements X509TrustManager {
     /**
      * List of trusted X509Certificate (trusted CA).
      */
-    private List trustedIssuers_ = null;
+    private List<X509Certificate> trustedIssuers_ = null;
 
     /** Log object for this class. */
     private static final Log LOG = LogFactory.getLog(ExtendedX509TrustManager.class);
@@ -77,28 +71,25 @@ public class ExtendedX509TrustManager implements X509TrustManager {
         }
     }
 
-    static protected List createTrustedIssuers(KeyStore truststore)
+    static protected List<X509Certificate> createTrustedIssuers(KeyStore truststore)
             throws KeyStoreException {
-        List trustedcerts = new ArrayList();
-        Enumeration aliases = truststore.aliases();
+        List<X509Certificate> trustedcerts = new ArrayList<X509Certificate>();
+        Enumeration<String> aliases = truststore.aliases();
         while (aliases.hasMoreElements()) {
-            String alias = (String) aliases.nextElement();
+            String alias = aliases.nextElement();
             Certificate trustedcert = truststore.getCertificate(alias);
             if (trustedcert != null && trustedcert instanceof X509Certificate) {
-                X509Certificate cert = (X509Certificate) trustedcert;
-                trustedcerts.add(cert);
+                trustedcerts.add((X509Certificate) trustedcert);
             }
         }
         return trustedcerts;
     }
 
-    static private void dumpTrustedIssuers(List trustedIssuers) {
+    static private void dumpTrustedIssuers(List<X509Certificate> trustedIssuers) {
         LOG.debug("Trusted Issuers:");
-        Iterator certs = trustedIssuers.iterator();
-        while (certs.hasNext()) {
-            X509Certificate cert = (X509Certificate) certs.next();
-            dumpCertificate(cert);
-        }
+        for (X509Certificate cert : trustedIssuers) {
+			dumpCertificate(cert);
+		}
     }
 
     static private void dumpCertificate(X509Certificate cert) {
@@ -239,9 +230,7 @@ public class ExtendedX509TrustManager implements X509TrustManager {
         //TODO: checks CA CRL
         // checks if an trusted issuer have signed the certificate
         boolean trusted = false;
-        Iterator issuers = trustedIssuers_.iterator();
-        while (issuers.hasNext()) {
-            X509Certificate issuer = (X509Certificate) issuers.next();
+        for (X509Certificate issuer : trustedIssuers_) {
             PublicKey issuerPublicKey = issuer.getPublicKey();
             try {
                 if (LOG.isDebugEnabled()) {
@@ -283,9 +272,7 @@ public class ExtendedX509TrustManager implements X509TrustManager {
             allAcceptedIssuers[i] = certificate;
             i++;
         }
-        Iterator trustedCerts = trustedIssuers_.iterator();
-        while (trustedCerts.hasNext()) {
-            X509Certificate certificate = (X509Certificate) trustedCerts.next();
+        for (X509Certificate certificate : trustedIssuers_) {
             allAcceptedIssuers[i] = certificate;
             i++;
         }

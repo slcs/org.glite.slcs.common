@@ -1,15 +1,10 @@
 /*
- * $Id: CertificateExtensionFactory.java,v 1.3 2007/08/22 10:38:47 vtschopp Exp $
- * 
- * Created on Sep 12, 2006 by Valery Tschopp <tschopp@switch.ch>
- *
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://eu-egee.org/partners/ for details on the copyright holders.
  * For license conditions see the license file or http://eu-egee.org/license.html
  */
 package org.glite.slcs.pki;
 
-import java.util.Enumeration;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -26,7 +21,6 @@ import org.bouncycastle.asn1.x509.KeyPurposeId;
 import org.bouncycastle.asn1.x509.KeyUsage;
 import org.bouncycastle.asn1.x509.PolicyInformation;
 import org.bouncycastle.asn1.x509.X509Extension;
-import org.bouncycastle.asn1.x509.X509Extensions;
 
 /**
  * X.509 certificate extensions factory
@@ -101,7 +95,7 @@ public class CertificateExtensionFactory {
         if (LOG.isDebugEnabled()) {
             LOG.debug("id:" + id + " value(s):" + values);
         }
-        if (id.equals(X509Extensions.KeyUsage.getId())
+        if (id.equals(X509Extension.keyUsage.getId())
                 || id.equalsIgnoreCase("KeyUsage")) {
             // parse the comma separated list of key usage
             int usage= 0;
@@ -144,10 +138,10 @@ public class CertificateExtensionFactory {
             }
             return createKeyUsageExtension(usage, values);
         }
-        else if (id.equals(X509Extensions.ExtendedKeyUsage.getId())
+        else if (id.equals(X509Extension.extendedKeyUsage.getId())
                 || id.equalsIgnoreCase("ExtendedKeyUsage")) {
             // value is a comma separated list of keyPurpose
-            Vector keyPurposeIds= new Vector();
+            Vector<DERObjectIdentifier> keyPurposeIds= new Vector<DERObjectIdentifier>();
             StringTokenizer st= new StringTokenizer(values, ",");
             while (st.hasMoreElements()) {
                 String keyPurpose= (String) st.nextElement();
@@ -191,10 +185,10 @@ public class CertificateExtensionFactory {
             }
             return createExtendedKeyUsageExtension(keyPurposeIds, values);
         }
-        else if (id.equals(X509Extensions.CertificatePolicies.getId())
+        else if (id.equals(X509Extension.certificatePolicies.getId())
                 || id.equalsIgnoreCase("CertificatePolicies")) {
             // values is a comma separated list of policyOIDs
-            Vector policyOIDs= new Vector();
+            Vector<String> policyOIDs= new Vector<String>();
             StringTokenizer st= new StringTokenizer(values, ",");
             while (st.hasMoreElements()) {
                 String policyOID= (String) st.nextElement();
@@ -203,11 +197,11 @@ public class CertificateExtensionFactory {
             }
             return createCertificatePoliciesExtension(policyOIDs, values);
         }
-        else if (id.equals(X509Extensions.SubjectAlternativeName.getId())
+        else if (id.equals(X509Extension.subjectAlternativeName.getId())
                 || id.equalsIgnoreCase("SubjectAltName")) {
             // values is a comma separated list of altername names prefixed with
             // the type (email: or dns:)
-            Vector typedSubjectAltNames= new Vector();
+            Vector<String> typedSubjectAltNames= new Vector<String>();
             StringTokenizer st= new StringTokenizer(values, ",");
             while (st.hasMoreElements()) {
                 String typedAltName= (String) st.nextElement();
@@ -227,11 +221,11 @@ public class CertificateExtensionFactory {
      * @return
      */
     static protected CertificateExtension createExtendedKeyUsageExtension(
-            Vector keyPurposeIds, String keyPurposeNames) {
+            Vector<DERObjectIdentifier> keyPurposeIds, String keyPurposeNames) {
         ExtendedKeyUsage extendedKeyUsage= new ExtendedKeyUsage(keyPurposeIds);
         X509Extension extendedKeyUsageExtension= new X509Extension(false,
                                                                    new DEROctetString(extendedKeyUsage));
-        return new CertificateExtension(X509Extensions.ExtendedKeyUsage,
+        return new CertificateExtension(X509Extension.extendedKeyUsage,
                                         "ExtendedKeyUsage",
                                         extendedKeyUsageExtension,
                                         keyPurposeNames);
@@ -249,7 +243,7 @@ public class CertificateExtensionFactory {
         ExtendedKeyUsage extendedKeyUsage= new ExtendedKeyUsage(keyPurposeIds);
         X509Extension extendedKeyUsageExtension= new X509Extension(false,
                                                                    new DEROctetString(extendedKeyUsage));
-        return new CertificateExtension(X509Extensions.ExtendedKeyUsage,
+        return new CertificateExtension(X509Extension.extendedKeyUsage,
                                         "ExtendedKeyUsage",
                                         extendedKeyUsageExtension,
                                         keyPurposeName);
@@ -270,7 +264,7 @@ public class CertificateExtensionFactory {
         GeneralNames subjectAltNames= new GeneralNames(subjectAltName);
         X509Extension subjectAltNameExtension= new X509Extension(false,
                                                                  new DEROctetString(subjectAltNames));
-        return new CertificateExtension(X509Extensions.SubjectAlternativeName,
+        return new CertificateExtension(X509Extension.subjectAlternativeName,
                                         "SubjectAltName",
                                         subjectAltNameExtension,
                                         emailAddress);
@@ -284,11 +278,9 @@ public class CertificateExtensionFactory {
      * @return
      */
     static protected CertificateExtension createSubjectAltNameExtension(
-            Vector prefixedAltNames, String values) {
+            Vector<String> prefixedAltNames, String values) {
         ASN1EncodableVector altNames= new ASN1EncodableVector();
-        Enumeration typeAndNames= prefixedAltNames.elements();
-        while (typeAndNames.hasMoreElements()) {
-            String typeAndName= (String) typeAndNames.nextElement();
+        for (String typeAndName : prefixedAltNames) {
             typeAndName= typeAndName.trim();
             if (typeAndName.startsWith("email:")) {
                 String emailAddress= typeAndName.substring("email:".length());
@@ -311,7 +303,7 @@ public class CertificateExtensionFactory {
         GeneralNames generalNames= new GeneralNames(subjectAltNames);
         X509Extension subjectAltNameExtension= new X509Extension(false,
                                                                  new DEROctetString(generalNames));
-        return new CertificateExtension(X509Extensions.SubjectAlternativeName,
+        return new CertificateExtension(X509Extension.subjectAlternativeName,
                                         "SubjectAltName",
                                         subjectAltNameExtension,
                                         values);
@@ -333,7 +325,7 @@ public class CertificateExtensionFactory {
         DERSequence certificatePolicies= new DERSequence(policyInformation);
         X509Extension certificatePoliciesExtension= new X509Extension(false,
                                                                       new DEROctetString(certificatePolicies));
-        return new CertificateExtension(X509Extensions.CertificatePolicies,
+        return new CertificateExtension(X509Extension.certificatePolicies,
                                         "CertificatePolicies",
                                         certificatePoliciesExtension,
                                         policyOID);
@@ -346,12 +338,10 @@ public class CertificateExtensionFactory {
      * @return
      */
     static protected CertificateExtension createCertificatePoliciesExtension(
-            Vector policyOIDs, String values) {
+            Vector<String> policyOIDs, String values) {
         ASN1EncodableVector policyInformations= new ASN1EncodableVector();
-        Enumeration pOids= policyOIDs.elements();
-        while (pOids.hasMoreElements()) {
-            String policyOid= (String) pOids.nextElement();
-            DERObjectIdentifier policyIdentifier= new DERObjectIdentifier(policyOid);
+        for (String policyOid : policyOIDs) {
+        	DERObjectIdentifier policyIdentifier= new DERObjectIdentifier(policyOid);
             PolicyInformation policyInformation= new PolicyInformation(policyIdentifier);
             policyInformations.add(policyInformation);
 
@@ -359,7 +349,7 @@ public class CertificateExtensionFactory {
         DERSequence certificatePolicies= new DERSequence(policyInformations);
         X509Extension certificatePoliciesExtension= new X509Extension(false,
                                                                       new DEROctetString(certificatePolicies));
-        return new CertificateExtension(X509Extensions.CertificatePolicies,
+        return new CertificateExtension(X509Extension.certificatePolicies,
                                         "CertificatePolicies",
                                         certificatePoliciesExtension,
                                         values);
@@ -383,7 +373,7 @@ public class CertificateExtensionFactory {
         // KeyUsage is critical
         X509Extension keyUsageExtension= new X509Extension(true,
                                                            new DEROctetString(keyUsage));
-        return new CertificateExtension(X509Extensions.KeyUsage,
+        return new CertificateExtension(X509Extension.keyUsage,
                                         "KeyUsage",
                                         keyUsageExtension,
                                         value,

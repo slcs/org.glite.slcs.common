@@ -1,8 +1,4 @@
 /*
- * $Id: SLCSConfiguration.java,v 1.7 2009/08/19 14:57:32 vtschopp Exp $
- * 
- * Created on Aug 9, 2006 by tschopp
- *
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://eu-egee.org/partners/ for details on the copyright holders.
  * For license conditions see the license file or http://eu-egee.org/license.html
@@ -24,10 +20,10 @@ import org.glite.slcs.SLCSConfigurationException;
 /**
  * SLCSConfiguration is a wrapper class for a XML file based configuration.
  * 
- * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.7 $
+ * @author Valery Tschopp <valery.tschopp@switch.ch>
  * @see org.apache.commons.configuration.XMLConfiguration
  */
+@SuppressWarnings("deprecation")
 public abstract class SLCSConfiguration {
 
     static {
@@ -164,9 +160,8 @@ public abstract class SLCSConfiguration {
      *            The configuration key.
      * @return The associated List. Empty if the name is not in configuration.
      */
-    public List getList(String name) {
-        List list = configuration_.getList(name);
-        return list;
+    public List<Object> getList(String name) {
+        return configuration_.getList(name);
     }
 
     /**

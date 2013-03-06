@@ -1,8 +1,4 @@
 /*
- * $Id: PKCS10.java,v 1.3 2008/07/01 11:33:40 vtschopp Exp $
- * 
- * Created on May 30, 2006 by tschopp
- *
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://eu-egee.org/partners/ for details on the copyright holders.
  * For license conditions see the license file or http://eu-egee.org/license.html
@@ -41,8 +37,8 @@ import org.bouncycastle.openssl.PEMWriter;
  * PKCS10 wrapper class for the BouncyCastle {@link PKCS10CertificationRequest} object.
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.3 $
  */
+@SuppressWarnings("deprecation")
 public class PKCS10 {
 
     /** Logging */
@@ -231,7 +227,7 @@ public class PKCS10 {
      * @return The subject DN as Principal
      */
     public Principal getPrincipal() {
-        X509Name subject = this.bcPKCS10_.getCertificationRequestInfo().getSubject();
+		X509Name subject = this.bcPKCS10_.getCertificationRequestInfo().getSubject();
         X509Principal principal = new X509Principal(subject);
         return principal;
     }

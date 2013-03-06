@@ -18,17 +18,15 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
-
-import org.glite.slcs.pki.bouncycastle.PKCS10;
-import org.glite.slcs.util.Utils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.bouncycastle.asn1.DERObjectIdentifier;
 import org.bouncycastle.asn1.x509.X509Extension;
 import org.bouncycastle.asn1.x509.X509Extensions;
+import org.glite.slcs.pki.bouncycastle.PKCS10;
+import org.glite.slcs.util.Utils;
 
 /**
  * CertificateRequest is a wrapper class for a PKCS10 object and the methods to
@@ -94,14 +92,12 @@ public class CertificateRequest {
      * @see org.glite.slcs.pki.CertificateExtension
      */
     public CertificateRequest(CertificateKeys keys, String subject,
-            List certificateExtensions) throws GeneralSecurityException {
+            List<CertificateExtension> certificateExtensions) throws GeneralSecurityException {
 
         X509Extensions x509extensions= null;
         if (certificateExtensions != null && !certificateExtensions.isEmpty()) {
-            Hashtable extensionsMap= new Hashtable();
-            Iterator extensions= certificateExtensions.iterator();
-            while (extensions.hasNext()) {
-                CertificateExtension extension= (CertificateExtension) extensions.next();
+            Hashtable<DERObjectIdentifier,X509Extension> extensionsMap= new Hashtable<DERObjectIdentifier, X509Extension>();
+            for (CertificateExtension extension : certificateExtensions) {
                 extensionsMap.put(extension.getOID(), extension.getExtension());
             }
             x509extensions= new X509Extensions(extensionsMap);
@@ -128,14 +124,16 @@ public class CertificateRequest {
      * 
      * @return The List of CertificateExtension
      */
-    public List getCertificateExtensions() {
-        List certificateExtensions= new ArrayList();
+    public List<CertificateExtension> getCertificateExtensions() {
+        List<CertificateExtension> certificateExtensions= new ArrayList<CertificateExtension>();
         X509Extensions x509Extensions= pkcs10_.getX509Extensions();
         if (x509Extensions != null) {
-            Enumeration oids= x509Extensions.oids();
+            @SuppressWarnings("unchecked")
+			Enumeration<DERObjectIdentifier> oids= x509Extensions.oids();
             while (oids.hasMoreElements()) {
                 DERObjectIdentifier oid= (DERObjectIdentifier) oids.nextElement();
-                X509Extension x509Extension= x509Extensions.getExtension(oid);
+                @SuppressWarnings("deprecation")
+				X509Extension x509Extension= x509Extensions.getExtension(oid);
                 boolean critical= x509Extension.isCritical();
                 CertificateExtension extension= new CertificateExtension(oid,
                                                                          x509Extension,

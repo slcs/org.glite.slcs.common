@@ -309,7 +309,8 @@ public class Codec {
         bagAttr.setBagAttribute(PKCSObjectIdentifiers.pkcs_9_at_localKeyId, new SubjectKeyIdentifierStructure(publicKey));
 
         // the PKCS12 keystore key alias is the CN
-        String alias = getPrincipalValue(certificate, X509Principal.CN);
+        @SuppressWarnings("deprecation")
+		String alias = getPrincipalValue(certificate, X509Principal.CN);
 
         // build full cert chain
         int nCerts = chain.length + 1;
@@ -342,16 +343,17 @@ public class Codec {
      * @throws GeneralSecurityException
      *             If a crypto error occurs.
      */
+    @SuppressWarnings({ "deprecation", "rawtypes" })
     static public String getPrincipalValue(X509Certificate certificate,
             DERObjectIdentifier oid) throws GeneralSecurityException {
         X509Principal subject = PrincipalUtil.getSubjectX509Principal(certificate);
-        Vector oids = subject.getOIDs();
+		Vector oids = subject.getOIDs();
         int valueIndex = oids.indexOf(oid);
         if (valueIndex < 0) {
             // oid not found
             return null;
         }
-        Vector values = subject.getValues();
+		Vector values = subject.getValues();
         String value = values.get(valueIndex).toString();
         return value;
     }

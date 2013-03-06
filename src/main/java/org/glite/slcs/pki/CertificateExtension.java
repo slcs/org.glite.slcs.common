@@ -17,7 +17,6 @@ import org.bouncycastle.asn1.x509.X509Extension;
  * extension.
  * 
  * @author Valery Tschopp <tschopp@switch.ch>
- * @version $Revision: 1.2 $
  */
 public class CertificateExtension {
 
