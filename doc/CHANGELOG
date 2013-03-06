@@ -1,3 +1,8 @@
+Version 1.7.0
+-------------
+* Java SE 6 compatible
+* Project build with maven
+
 Version 1.6.2
 -------------
 * ExtendedProtocolSocketFactory.getSSLContext() method is now public.
