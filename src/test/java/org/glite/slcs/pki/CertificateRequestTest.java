@@ -23,7 +23,7 @@ public class CertificateRequestTest extends TestCase {
     
     private int[] keySizes;
 
-    private List extensions= null;
+    private List<CertificateExtension> extensions= null;
 
     /*
      * (non-Javadoc)
@@ -34,11 +34,11 @@ public class CertificateRequestTest extends TestCase {
         super.setUp();
         this.password= "password";
         this.subject= "C=CH, O=Switch - Teleinformatikdienste fuer Lehre und Forschung, CN=Valery Tschopp 9FEE5EE3";
-        this.email= "tschopp@switch.ch";
+        this.email= "valery.tschopp@switch.ch";
         this.keySizes= new int[2];
         this.keySizes[0]= 1024;
         this.keySizes[1]= 2048;
-        this.extensions= new ArrayList();
+        this.extensions= new ArrayList<CertificateExtension>();
         extensions.add(CertificateExtensionFactory.createCertificateExtension("KeyUsage", "DigitalSignature,KeyEncipherment"));
         extensions.add(CertificateExtensionFactory.createCertificateExtension("ExtendedKeyUsage", "ClientAuth,ServerAuth"));
         extensions.add(CertificateExtensionFactory.createCertificateExtension("CertificatePolicies", "2.16.756.1.2.6.3,2.16.756.1.2.6.4"));
