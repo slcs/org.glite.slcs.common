@@ -1,17 +1,164 @@
-<project>
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>ch.switch</groupId>
-    <artifactId>deployer</artifactId>
-    <version>1.0.0</version>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.glite.slcs</groupId>
+	<artifactId>slcs-common</artifactId>
 
-  <build>
-    <extensions>
-      <extension>
-        <!-- support for scpexe: -->
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-ssh-external</artifactId>
-      </extension>
-    </extensions>
-  </build>
+	<name>SLCS common library</name>
+	<version>1.7.0</version>
+	<packaging>jar</packaging>
+
+	<description>Short Lived Certificate Service (Common Library)</description>
+	<url>https://github.com/slcs/org.glite.slcs.common</url>
+	<inceptionYear>2008</inceptionYear>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>switch</id>
+			<name>SWITCH Releases</name>
+			<url>http://www.switch.ch/grid/authz/docs/maven2/release</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>1.9</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk16</artifactId>
+			<version>1.46</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<extensions>
+			<extension>
+				<!-- support for scpexe: -->
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh-external</artifactId>
+				<version>2.2</version>
+			</extension>
+		</extensions>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<archive>
+						<manifestSections>
+							<manifestSection>
+								<name>org/glite/slcs/common/</name>
+								<manifestEntries>
+									<Implementation-Title>${project.artifactId}</Implementation-Title>
+									<Implementation-Version>${project.version}</Implementation-Version>
+									<Implementation-Vendor>SWITCH</Implementation-Vendor>
+								</manifestEntries>
+							</manifestSection>
+						</manifestSections>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<version>1.9.0</version>
+				<configuration>
+					<strictCheck>true</strictCheck>
+					<header>project/license.txt</header>
+					<mapping>
+						<java>SLASHSTAR_STYLE</java>
+						<ini>SCRIPT_STYLE</ini>
+					</mapping>
+					<excludes>
+						<exclude>.gitignore</exclude>
+						<exclude>project/**</exclude>
+						<exclude>doc/**</exclude>
+						<exclude>src/test/**</exclude>
+					</excludes>
+					<useDefaultExcludes>true</useDefaultExcludes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>check-license</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<licenses>
+		<license>
+			<name>Apache Software License 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<organization>
+		<name>SWITCH</name>
+		<url>http://www.switch.ch</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>valerytschopp</id>
+			<name>Valery Tschopp</name>
+			<email>valery.tschopp@switch.ch</email>
+			<organization>SWITCH</organization>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<scm>
+		<url>https://github.com/slcs/org.glite.slcs.common</url>
+		<connection>scm:git:https://github.com/slcs/org.glite.slcs.common.git</connection>
+	</scm>
+	<issueManagement>
+		<url>https://github.com/slcs/org.glite.slcs.common/issues</url>
+	</issueManagement>
 </project>
 
