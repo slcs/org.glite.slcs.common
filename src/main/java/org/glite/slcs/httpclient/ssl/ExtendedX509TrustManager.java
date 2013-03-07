@@ -32,8 +32,8 @@ import java.util.List;
 
 import javax.net.ssl.X509TrustManager;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ExtendedTrustX509TrustManager can be used to extend the default JSSE
@@ -52,7 +52,7 @@ public class ExtendedX509TrustManager implements X509TrustManager {
     private List<X509Certificate> trustedIssuers_ = null;
 
     /** Log object for this class. */
-    private static final Log LOG = LogFactory.getLog(ExtendedX509TrustManager.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ExtendedX509TrustManager.class);
 
     /**
      * Constructor for ExtendedX509TrustManager.
@@ -252,7 +252,7 @@ public class ExtendedX509TrustManager implements X509TrustManager {
                 break;
             } catch (GeneralSecurityException e) {
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug(e);
+                    LOG.debug(e.getMessage(),e);
                 }
             }
         }

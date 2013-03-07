@@ -21,7 +21,7 @@ package org.glite.slcs.common;
  */
 public class Version {
 
-    static final String COPYRIGHT= "Copyright (c) 2008-2009. Members of the EGEE Collaboration";
+    static final String COPYRIGHT= "Copyright (c) 2008-2009 Members of the EGEE Collaboration";
     static final Package PKG= Version.class.getPackage();
 
     /**

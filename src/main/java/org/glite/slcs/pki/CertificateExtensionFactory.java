@@ -19,8 +19,6 @@ package org.glite.slcs.pki;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.bouncycastle.asn1.ASN1EncodableVector;
 import org.bouncycastle.asn1.DERObjectIdentifier;
 import org.bouncycastle.asn1.DEROctetString;
@@ -32,6 +30,8 @@ import org.bouncycastle.asn1.x509.KeyPurposeId;
 import org.bouncycastle.asn1.x509.KeyUsage;
 import org.bouncycastle.asn1.x509.PolicyInformation;
 import org.bouncycastle.asn1.x509.X509Extension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * X.509 certificate extensions factory
@@ -41,7 +41,7 @@ import org.bouncycastle.asn1.x509.X509Extension;
 public class CertificateExtensionFactory {
 
     /** Logging */
-    private static Log LOG= LogFactory.getLog(CertificateExtensionFactory.class);
+    private static Logger LOG= LoggerFactory.getLogger(CertificateExtensionFactory.class);
 
     /**
      * Creates a CertificateExtension. The id can be the OID or the name as

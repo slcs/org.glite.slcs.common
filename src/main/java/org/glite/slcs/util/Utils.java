@@ -29,8 +29,8 @@ import java.nio.charset.CharsetEncoder;
 import javax.naming.ldap.Rdn;
 
 import org.apache.commons.lang.SystemUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utils some utility functions
@@ -40,7 +40,7 @@ import org.apache.commons.logging.LogFactory;
 public class Utils {
 
     /** logging */
-    static private Log LOG= LogFactory.getLog(Utils.class);
+    static private Logger LOG= LoggerFactory.getLogger(Utils.class);
 
     /**
      * Filter an unicode Java string accentuated characters and replace them

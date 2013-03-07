@@ -24,11 +24,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.glite.slcs.pki.bouncycastle.Codec;
 import org.glite.slcs.pki.bouncycastle.KeyPairGenerator;
 import org.glite.slcs.util.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * CertificateKeys is a wrapper class for a KeyPair. Adds functionalities to
@@ -39,7 +39,7 @@ import org.glite.slcs.util.Utils;
 public class CertificateKeys {
 
     /** Logging */
-    static private Log LOG = LogFactory.getLog(CertificateKeys.class);
+    static private Logger LOG = LoggerFactory.getLogger(CertificateKeys.class);
 
     /** Default keys algorithm */
     private static final String KEY_ALGORITHM = "RSA";

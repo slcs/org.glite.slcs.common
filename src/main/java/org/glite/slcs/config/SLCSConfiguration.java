@@ -24,9 +24,9 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.FileConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.glite.slcs.SLCSConfigurationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * SLCSConfiguration is a wrapper class for a XML file based configuration.
@@ -43,7 +43,7 @@ public abstract class SLCSConfiguration {
     }
     
     /** Logging */
-    private static Log LOG = LogFactory.getLog(SLCSConfiguration.class);
+    static private Logger LOG = LoggerFactory.getLogger(SLCSConfiguration.class);
 
     /** The file based configuration */
     private FileConfiguration configuration_ = null;

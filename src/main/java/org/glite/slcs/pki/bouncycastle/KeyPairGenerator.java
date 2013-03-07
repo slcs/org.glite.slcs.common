@@ -20,9 +20,9 @@ import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.security.Security;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Wrapper class for the BouncyCastle KeyPairGenerator. Uses a BouncyCastle
@@ -34,7 +34,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 public class KeyPairGenerator {
 
     /** Logging */
-    static private Log LOG = LogFactory.getLog(KeyPairGenerator.class);
+    static private Logger LOG = LoggerFactory.getLogger(KeyPairGenerator.class);
 
     /**
      * Sets BouncyCastle security provider as boot time

@@ -26,8 +26,6 @@ import javax.naming.directory.Attribute;
 import javax.naming.ldap.LdapName;
 import javax.naming.ldap.Rdn;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.bouncycastle.asn1.ASN1EncodableVector;
 import org.bouncycastle.asn1.DERObjectIdentifier;
 import org.bouncycastle.asn1.DERSequence;
@@ -37,6 +35,8 @@ import org.bouncycastle.asn1.x509.X509Name;
 import org.bouncycastle.asn1.x509.X509NameEntryConverter;
 import org.bouncycastle.jce.X509Principal;
 import org.bouncycastle.util.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class to handle correctly the creation of {@link X509Principal}. The
@@ -59,7 +59,7 @@ import org.bouncycastle.util.Strings;
 public class X509PrincipalUtil {
 
     /** Logger */
-    private static Log LOG = LogFactory.getLog(X509PrincipalUtil.class);
+    private static Logger LOG = LoggerFactory.getLogger(X509PrincipalUtil.class);
 
     /** Start to handle + */
     private Boolean start_ = false;

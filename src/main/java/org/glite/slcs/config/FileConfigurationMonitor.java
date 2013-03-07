@@ -23,8 +23,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * FileConfigurationMonitor checks if the monitored file have been modified, and
@@ -39,7 +39,7 @@ public class FileConfigurationMonitor extends Timer {
     public static long DEFAULT_MONITORING_INTERVAL = 300000;
 
     /** Logging */
-    private static Log LOG = LogFactory.getLog(FileConfigurationMonitor.class);
+    static private Logger LOG = LoggerFactory.getLogger(FileConfigurationMonitor.class);
 
     /** List of FileConfigurationListener */
     private List<FileConfigurationListener> listeners_ = null;

@@ -17,8 +17,8 @@
 package org.glite.slcs.httpclient.ssl;
 
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -44,8 +44,8 @@ import org.apache.commons.httpclient.ConnectTimeoutException;
 import org.apache.commons.httpclient.params.HttpConnectionParams;
 import org.apache.commons.httpclient.protocol.ProtocolSocketFactory;
 import org.apache.commons.httpclient.protocol.SecureProtocolSocketFactory;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ExtendedProtocolSocketFactory extends the default system TrustManager with
@@ -99,8 +99,7 @@ public class ExtendedProtocolSocketFactory implements SecureProtocolSocketFactor
     private static String SSL_CONTEXT_PROTOCOL = "SSL";
 
     /** Log object for this class. */
-    private static final Log LOG = LogFactory
-            .getLog(ExtendedProtocolSocketFactory.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ExtendedProtocolSocketFactory.class);
 
     /** The SSLContext used by the factory to create the SSL sockets */
     private SSLContext sslContext_ = null;

@@ -33,8 +33,6 @@ import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.util.Vector;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.bouncycastle.asn1.DERObjectIdentifier;
 import org.bouncycastle.asn1.pkcs.PKCSObjectIdentifiers;
 import org.bouncycastle.jce.PrincipalUtil;
@@ -44,6 +42,8 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.PEMReader;
 import org.bouncycastle.openssl.PEMWriter;
 import org.bouncycastle.x509.extension.SubjectKeyIdentifierStructure;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Codec utility to read and write PEM object using the BouncyCastle functions.
@@ -53,7 +53,7 @@ import org.bouncycastle.x509.extension.SubjectKeyIdentifierStructure;
 public class Codec {
 
     /** Logging */
-    static private Log LOG = LogFactory.getLog(Codec.class);
+    static private Logger LOG = LoggerFactory.getLogger(Codec.class);
 
     /** Static initialisation */
     static {
@@ -85,7 +85,7 @@ public class Codec {
                 pem.close();
             } catch (IOException e) {
                 // ignored
-                LOG.warn(e);
+                LOG.warn(e.getMessage());
             }
         }
         return sw.toString();
@@ -116,7 +116,7 @@ public class Codec {
                 pem.close();
             } catch (IOException e) {
                 // ignored
-                LOG.warn(e);
+                LOG.warn(e.getMessage());
             }
         }
         return sw.toString();
@@ -141,7 +141,7 @@ public class Codec {
             fw.close();
         } catch (IOException e) {
             // ignored
-            LOG.warn(e);
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -169,7 +169,7 @@ public class Codec {
             fw.close();
         } catch (IOException e) {
             // ignored
-            LOG.warn(e);
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -193,7 +193,7 @@ public class Codec {
             fw.close();
         } catch (IOException e) {
             // ignored
-            LOG.warn(e);
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -225,7 +225,7 @@ public class Codec {
             fw.close();
         } catch (IOException e) {
             // ignored
-            LOG.warn(e);
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -252,7 +252,7 @@ public class Codec {
                 sw.close();
             } catch (IOException e) {
                 // ignored
-                LOG.warn(e);
+                LOG.warn(e.getMessage());
             }
         }
         return sw.toString();

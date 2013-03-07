@@ -27,13 +27,13 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.bouncycastle.asn1.DERObjectIdentifier;
 import org.bouncycastle.asn1.x509.X509Extension;
 import org.bouncycastle.asn1.x509.X509Extensions;
 import org.glite.slcs.pki.bouncycastle.PKCS10;
 import org.glite.slcs.util.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * CertificateRequest is a wrapper class for a PKCS10 object and the methods to
@@ -44,7 +44,7 @@ import org.glite.slcs.util.Utils;
 public class CertificateRequest {
 
     /** Logging */
-    private static Log LOG= LogFactory.getLog(CertificateRequest.class);
+    private static Logger LOG= LoggerFactory.getLogger(CertificateRequest.class);
 
     /** Default unix file permission for the certificate request file */
     private static final int CSR_FILE_PERMISSION= 640;
@@ -210,7 +210,7 @@ public class CertificateRequest {
         try {
             reader.close();
         } catch (IOException e) {
-            LOG.warn(e);
+            LOG.warn(e.getMessage());
         }
         return csr;
     }

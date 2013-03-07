@@ -22,10 +22,10 @@ import java.io.Reader;
 import java.security.GeneralSecurityException;
 import java.security.cert.X509Certificate;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.glite.slcs.pki.bouncycastle.Codec;
 import org.glite.slcs.util.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Certificate is a wrapper class for the X509Certificate. Used to store a
@@ -36,7 +36,7 @@ import org.glite.slcs.util.Utils;
 public class Certificate {
 
     /** Logging */
-    static private Log LOG= LogFactory.getLog(Certificate.class);
+    static private Logger LOG= LoggerFactory.getLogger(Certificate.class);
 
     /** Default unix file permissions for the certificate file */
     public static final int CRT_FILE_PERMISSION= 640;

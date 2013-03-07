@@ -28,8 +28,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Security;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.bouncycastle.asn1.ASN1Sequence;
 import org.bouncycastle.asn1.ASN1Set;
 import org.bouncycastle.asn1.DERObjectIdentifier;
@@ -43,6 +41,8 @@ import org.bouncycastle.jce.X509Principal;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.PEMReader;
 import org.bouncycastle.openssl.PEMWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * PKCS10 wrapper class for the BouncyCastle {@link PKCS10CertificationRequest} object.
@@ -53,7 +53,7 @@ import org.bouncycastle.openssl.PEMWriter;
 public class PKCS10 {
 
     /** Logging */
-    static private Log LOG = LogFactory.getLog(PKCS10.class);
+    static private Logger LOG = LoggerFactory.getLogger(PKCS10.class);
 
     static {
         // add only once
@@ -180,7 +180,7 @@ public class PKCS10 {
             fw.close();
         } catch (IOException e) {
             // ignored
-            LOG.warn(e);
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -199,7 +199,7 @@ public class PKCS10 {
             fos.close();
         } catch (IOException e) {
             // ignored
-            LOG.warn(e);
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -220,7 +220,7 @@ public class PKCS10 {
             pem.close();
         } catch (IOException e) {
             // ignored
-            LOG.warn(e);
+            LOG.warn(e.getMessage());
         }
         PKCS10 pkcs10 = new PKCS10(pkcs10csr);
         return pkcs10;
