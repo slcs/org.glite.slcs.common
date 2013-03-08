@@ -6,7 +6,7 @@
     <artifactId>slcs-common</artifactId>
 
     <name>SLCS common library</name>
-    <version>1.7-SNAPSHOT</version>
+    <version>2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <description>Short Lived Certificate Service (Common Library)</description>

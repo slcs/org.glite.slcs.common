@@ -1,7 +1,10 @@
-Version 1.7.0
--------------
-* Java SE 6 compatible
-* Project build with maven
+Version 2.0
+-----------
+* Refactoring:
+  - Unused classes removed.
+  - Uses SLF4J.
+* Compatible with Java SE 6 and Java SE 7.
+* Project build with maven.
 
 Version 1.6.2
 -------------
